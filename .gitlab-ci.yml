@@ -6,20 +6,20 @@ image: node:latest
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
-  paths:
-  - node_modules/
+	paths:
+	- node_modules/
 
 test:
-  stage: test
-  script:
-    - npm install
-    - npm test
+	stage: test
+	script:
+		- npm install
+		- npm test
 
 pack:
-  stage: deploy
-  script:
-    - npm install
-    - npm pack
-  artifacts:
-    paths:
-    - ./*.tgz
+	stage: deploy
+	script:
+		- npm install
+		- npm pack
+	artifacts:
+		paths:
+		- ./*.tgz
