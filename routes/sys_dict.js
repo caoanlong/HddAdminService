@@ -1,0 +1,131 @@
+const express = require('express')
+const router = express.Router()
+
+const Sys_dict = require('../model/Sys_dict')
+
+// 统一返回格式
+let responseData
+router.use((req, res, next) => {
+	responseData = {
+		code: 0,
+		msg: '成功'
+	}
+	next()
+})
+
+/* 获取字典列表 */
+router.get('/list', (req, res) => {
+	let pageIndex = Number(req.query.pageIndex || 1)
+	let pageSize = Number(req.query.pageSize || 10)
+
+	pageIndex = Math.max( pageIndex, 1 )
+	let offset = (pageIndex - 1) * pageSize
+	Sys_dict.findAndCountAll({
+		where: {},
+		offset: offset,
+		limit: pageSize,
+		order: [
+			['CreateDate', 'DESC']
+		]
+	}).then(sys_dicts => {
+		responseData.data = sys_dicts
+		responseData.data.pageIndex = pageIndex
+		responseData.data.pageSize = pageSize
+		res.json(responseData)
+	})
+})
+
+/* 获取字典详情 */
+router.get('/info', (req, res) => {
+	let Dict_ID = req.query.Dict_ID
+	Sys_dict.findById(Dict_ID).then(sys_dict => {
+		responseData.data = sys_dict
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 添加字典 */
+router.post('/add', (req, res) => {
+	let VALUE = req.body.VALUE
+	let TYPE = req.body.TYPE
+	let SortNumber = req.body.SortNumber
+	let NAME = req.body.NAME
+	let Description = req.body.Description
+	let CreateBy = req.body.CreateBy || '1'
+	let UpdateBy = req.body.UpdateBy || '1'
+	let DeleteFlag = req.body.DeleteFlag || ''
+	Sys_dict.create({
+		VALUE,
+		TYPE,
+		SortNumber,
+		NAME,
+		Description,
+		CreateBy,
+		UpdateBy,
+		DeleteFlag
+	}).then(sys_dict => {
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 修改字典 */
+router.post('/update', (req, res) => {
+	let Dict_ID = req.body.Dict_ID
+	let VALUE = req.body.VALUE
+	let TYPE = req.body.TYPE
+	let SortNumber = req.body.SortNumber
+	let NAME = req.body.NAME
+	let Description = req.body.Description
+	let CreateBy = req.body.CreateBy || '1'
+	let UpdateBy = req.body.UpdateBy || '1'
+	let DeleteFlag = req.body.DeleteFlag || ''
+	Sys_dict.update({
+		VALUE,
+		TYPE,
+		SortNumber,
+		NAME,
+		Description,
+		CreateBy,
+		UpdateBy,
+		DeleteFlag,
+		UpdateDate: new Date()
+	}, {
+		where: {
+			Dict_ID
+		}
+	}).then(() => {
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 删除字典 */
+router.post('/delete', (req, res) => {
+	let ids = req.body.ids
+	Sys_dict.destroy({
+		where: {
+			Dict_ID: {
+				$in: ids
+			}
+		}
+	}).then(() => {
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+module.exports = router

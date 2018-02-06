@@ -1,12 +1,16 @@
 const Sequelize = require('Sequelize')
 const sequelize = require('./sequelize')
 
+const Sys_role = require('../model/Sys_role')
+const Sys_user_role = require('../model/Sys_user_role')
+
 /* 系统权限角色 */
 const Sys_user = sequelize.define('sys_user', {
 	// 编号
 	User_ID: {
 		type: Sequelize.BIGINT(32),
 		primaryKey: true,
+		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 归属公司
@@ -79,7 +83,8 @@ const Sys_user = sequelize.define('sys_user', {
 	},
 	// 创建时间
 	CreateDate: {
-		type: Sequelize.DATEONLY
+		type: Sequelize.DATEONLY,
+		defaultValue: new Date()
 	},
 	// 更新者
 	UpdateBy: {
@@ -87,7 +92,8 @@ const Sys_user = sequelize.define('sys_user', {
 	},
 	// 更新时间
 	UpdateDate: {
-		type: Sequelize.DATEONLY
+		type: Sequelize.DATEONLY,
+		defaultValue: new Date()
 	},
 	// 备注信息
 	Remark: {
@@ -106,6 +112,9 @@ const Sys_user = sequelize.define('sys_user', {
 		type: Sequelize.STRING(450)
 	}
 })
+
+Sys_user.belongsToMany(Sys_role, {through: Sys_user_role, foreignKey: 'user_id'})
+Sys_role.belongsToMany(Sys_user, {through: Sys_user_role, foreignKey: 'role_id'})
 
 module.exports = Sys_user
 

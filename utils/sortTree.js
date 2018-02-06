@@ -1,0 +1,55 @@
+function minMaxBySortNumber(a, b) {
+	return a.SortNumber - b.SortNumber
+}
+function sortAll(arr) {
+	arr.sort(minMaxBySortNumber)
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i].children && arr[i].children.length > 0) {
+			sortAll(arr[i].children)
+		}
+	}
+}
+
+function menusTree(source) {
+	let data = source.map(item => {
+		return {
+			Menu_ID: item.Menu_ID,
+			Menu_PID: item.Menu_PID,
+			name: item.name,
+			title: item.title,
+			SortNumber: item.SortNumber,
+			path: item.path,
+			redirect: item.redirect,
+			component: item.component,
+			Icon: item.Icon,
+			IsShow: item.IsShow,
+			CreateBy: item.CreateBy,
+			CreateDate: item.CreateDate,
+			UpdateBy: item.UpdateBy,
+			UpdateDate: item.UpdateDate,
+			Remark: item.Remark
+		}
+	})
+	let json = [], hash = {}
+	return new Promise((resolve, reject) => {
+		for (let i = 0; i < data.length; i++) {
+			hash[data[i].Menu_ID] = data[i]
+		}
+		let hashVP
+		for (let j = 0; j < data.length; j++) {
+			hashVP = hash[data[j].Menu_PID]
+			if (hashVP) {
+				if (!hashVP.children) {
+					hashVP.children = []
+				}
+				hashVP.children.push(data[j])
+			} else {  
+				json.push(data[j])
+			}
+		}
+		sortAll(json)
+		resolve(json)
+	})
+}
+
+module.exports = menusTree
