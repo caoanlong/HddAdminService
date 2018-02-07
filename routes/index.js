@@ -10,11 +10,14 @@ router.use((req, res, next) => {
 	next()
 })
 
+
+router.use('/user', require('./user'))
 router.use('/sys_user', require('./sys_user'))
 router.use('/sys_menu', require('./sys_menu'))
 router.use('/sys_role', require('./sys_role'))
 router.use('/sys_dict', require('./sys_dict'))
 router.use('/sys_settings', require('./sys_settings'))
 router.use('/base_conststand', require('./base_conststand'))
+router.use('/base_area', require('./base_area'))
 
 module.exports = router

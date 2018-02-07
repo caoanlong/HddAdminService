@@ -1,6 +1,5 @@
 const Sequelize = require('Sequelize')
 const sequelize = require('./sequelize')
-const uuidNum = require('../utils/randomNumber')
 
 /* 标准常量 */
 const Base_conststand = sequelize.define('base_conststand', {
@@ -8,7 +7,7 @@ const Base_conststand = sequelize.define('base_conststand', {
 	ConstStd_ID: {
 		type: Sequelize.BIGINT(20),
 		primaryKey: true,
-		defaultValue: uuidNum(),
+		// defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 常量类型
@@ -33,8 +32,7 @@ const Base_conststand = sequelize.define('base_conststand', {
 	},
 	// 描述
 	Description: {
-		type: Sequelize.STRING(320),
-		allowNull: false
+		type: Sequelize.STRING(320)
 	},
 	// 序号
 	SortNumber: {

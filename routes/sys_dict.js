@@ -35,6 +35,33 @@ router.get('/list', (req, res) => {
 	})
 })
 
+/* 通过类型参数获取字典列表 */
+router.get('/list/type', (req, res) => {
+	let TYPE = req.query.TYPE
+	Sys_dict.findAll({
+		where: {
+			TYPE
+		},
+		order: [
+			['CreateDate', 'DESC']
+		]
+	}).then(sys_dicts => {
+		responseData.data = sys_dicts
+		res.json(responseData)
+	})
+})
+
+/* 获取字典的所有类型列表 */
+router.get('/type/list', (req, res) => {
+	Sys_dict.findAll({
+		attributes: ['TYPE'],
+		group: ['TYPE']
+	}).then(types => {
+		responseData.data = types
+		res.json(responseData)
+	})
+})
+
 /* 获取字典详情 */
 router.get('/info', (req, res) => {
 	let Dict_ID = req.query.Dict_ID
@@ -47,6 +74,7 @@ router.get('/info', (req, res) => {
 		res.json(responseData)
 	})
 })
+
 
 /* 添加字典 */
 router.post('/add', (req, res) => {

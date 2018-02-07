@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const uuidNum = require('../utils/randomNumber')
 
 const Base_conststand = require('../model/Base_conststand')
 
@@ -17,10 +18,17 @@ router.use((req, res, next) => {
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
+	let Type = req.query.Type
+	console.log(Type)
 
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
 	Base_conststand.findAndCountAll({
+		// where: {
+		// 	$or: [
+		// 		{Type}
+		// 	]
+		// },
 		where: {},
 		offset: offset,
 		limit: pageSize,
@@ -31,6 +39,10 @@ router.get('/list', (req, res) => {
 		responseData.data = base_conststands
 		responseData.data.pageIndex = pageIndex
 		responseData.data.pageSize = pageSize
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
 		res.json(responseData)
 	})
 })
@@ -59,6 +71,7 @@ router.post('/add', (req, res) => {
 	let CreateBy = req.body.CreateBy || '1'
 	let UpdateBy = req.body.UpdateBy || '1'
 	Base_conststand.create({
+		ConstStd_ID: uuidNum(),
 		Code,
 		Name,
 		Value,
@@ -68,6 +81,23 @@ router.post('/add', (req, res) => {
 		CreateBy,
 		UpdateBy
 	}).then(base_conststand => {
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 批量添加标准常量 */
+router.post('/addmutip', (req, res) => {
+	let consts = req.body.consts
+	for (let i = 0; i < consts.length; i++) {
+		consts[i].ConstStd_ID = uuidNum()
+		consts[i].CreateBy = '1'
+		consts[i].UpdateBy = '1'
+	}
+	Base_conststand.bulkCreate(consts).then(base_conststand => {
 		res.json(responseData)
 	}).catch(err => {
 		responseData.code = 100
