@@ -1,4 +1,4 @@
-const Sequelize = require('Sequelize')
+const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
 const Sys_role = require('../model/Sys_role')

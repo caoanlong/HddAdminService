@@ -1,4 +1,4 @@
-const Sequelize = require('Sequelize')
+const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
 /* 权限角色与用户关联 */

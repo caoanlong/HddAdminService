@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Sequelize = require('Sequelize')
+const Sequelize = require('sequelize')
 const jwt = require('jwt-simple')
 const secret = require('../config/secret')
 
