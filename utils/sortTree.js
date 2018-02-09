@@ -23,6 +23,8 @@ function menusTree(source) {
 			component: item.component,
 			Icon: item.Icon,
 			IsShow: item.IsShow,
+			IsMenu: item.IsMenu,
+			Visable: item.Visable,
 			CreateBy: item.CreateBy,
 			CreateDate: item.CreateDate,
 			UpdateBy: item.UpdateBy,

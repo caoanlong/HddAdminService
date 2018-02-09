@@ -18,11 +18,24 @@ router.use((req, res, next) => {
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
+	let Code = req.query.Code
+	let Name = req.query.Name
 
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
 	Sys_settings.findAndCountAll({
-		where: {},
+		where: {
+			$or: [
+				{
+					Code: {
+						$like: '%' + Code + '%'
+					},
+					Name: {
+						$like: '%' + Name + '%'
+					}
+				}
+			]
+		},
 		offset: offset,
 		limit: pageSize,
 		order: [

@@ -23,7 +23,10 @@ router.use((req, res, next) => {
 })
 
 router.use((req, res, next) => {
-	if (req.url.includes('login')) {
+	if (req.url.includes('login') 
+		|| req.url.includes('sys_organization') 
+		|| req.url.includes('sys_menu')
+		|| req.url.includes('sys_user')) {
 		next()
 		return
 	}
@@ -63,5 +66,6 @@ router.use('/sys_dict', require('./sys_dict'))
 router.use('/sys_settings', require('./sys_settings'))
 router.use('/base_conststand', require('./base_conststand'))
 router.use('/base_area', require('./base_area'))
+router.use('/sys_organization', require('./sys_organization'))
 
 module.exports = router

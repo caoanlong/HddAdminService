@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
+const Base_area = require('./Base_area')
+
 /* 组织机构 */
 const Sys_organization = sequelize.define('sys_organization', {
 	// 组织机构ID
@@ -109,6 +111,8 @@ const Sys_organization = sequelize.define('sys_organization', {
 		allowNull: false
 	}
 })
+
+Sys_organization.belongsTo(Base_area, {foreignKey: 'Area_ID'})
 
 module.exports = Sys_organization
 

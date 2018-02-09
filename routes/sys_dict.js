@@ -17,11 +17,38 @@ router.use((req, res, next) => {
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
+	let TYPE = req.query.TYPE
+	let Description = req.query.Description
 
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
+	let where
+	if (TYPE) {
+		where = {
+			$or: [
+				{
+					TYPE: {
+						$eq: TYPE
+					},
+					Description: {
+						$like: '%' + Description + '%'
+					}
+				}
+			]
+		}
+	} else {
+		where = {
+			$or: [
+				{
+					Description: {
+						$like: '%' + Description + '%'
+					}
+				}
+			]
+		}
+	}
 	Sys_dict.findAndCountAll({
-		where: {},
+		where: where,
 		offset: offset,
 		limit: pageSize,
 		order: [

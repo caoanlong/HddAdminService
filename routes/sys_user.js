@@ -23,10 +23,29 @@ router.use((req, res, next) => {
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
+	let LoginName = req.query.LoginName
+	let Name = req.query.Name
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
+	let where
+	if (LoginName || Name) {
+		where = {
+			$or: [
+				{
+					LoginName: {
+						$like: '%' + LoginName + '%'
+					},
+					Name: {
+						$like: '%' + Name + '%'
+					}
+				}
+			]
+		}
+	} else {
+		where = {}
+	}
 	Sys_user.findAndCountAll({
-		where: '',
+		where: where,
 		offset: offset,
 		limit: pageSize,
 		order: [

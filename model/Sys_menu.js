@@ -55,6 +55,15 @@ const Sys_menu = sequelize.define('sys_menu', {
 		type: Sequelize.CHAR(1),
 		allowNull: false
 	},
+	// 是否是菜单
+	IsMenu: {
+		type: Sequelize.BOOLEAN
+	},
+	// 是否可见
+	Visable: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: true
+	},
 	// 创建者
 	CreateBy: {
 		type: Sequelize.STRING(64),
