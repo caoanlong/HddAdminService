@@ -56,8 +56,7 @@ router.get('/list', (req, res) => {
 						},
 						Name: {
 							$like: '%' + Name + '%'
-						},
-						Company_ID
+						}
 					}
 				]
 			}
