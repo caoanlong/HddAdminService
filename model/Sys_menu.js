@@ -38,14 +38,6 @@ const Sys_menu = sequelize.define('sys_menu', {
 	path: {
 		type: Sequelize.STRING(2000)
 	},
-	// 重定向
-	redirect: {
-		type: Sequelize.STRING(100)
-	},
-	// 目标组件
-	component: {
-		type: Sequelize.STRING(100)
-	},
 	// 图标
 	Icon: {
 		type: Sequelize.STRING(100)
@@ -54,15 +46,6 @@ const Sys_menu = sequelize.define('sys_menu', {
 	IsShow: {
 		type: Sequelize.CHAR(1),
 		allowNull: false
-	},
-	// 是否是菜单
-	IsMenu: {
-		type: Sequelize.BOOLEAN
-	},
-	// 是否可见
-	Visable: {
-		type: Sequelize.BOOLEAN,
-		defaultValue: true
 	},
 	// 创建者
 	CreateBy: {

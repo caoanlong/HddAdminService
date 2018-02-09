@@ -25,8 +25,9 @@ router.get('/list', (req, res) => {
 	let Name = req.query.Name
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	Sys_role.findAndCountAll({
-		where: {
+	let where
+	if (Name) {
+		where = {
 			$or: [
 				{
 					Name: {
@@ -34,7 +35,12 @@ router.get('/list', (req, res) => {
 					}
 				}
 			]
-		},
+		}
+	} else {
+		where = {}
+	}
+	Sys_role.findAndCountAll({
+		where: where,
 		offset: offset,
 		limit: pageSize,
 		order: [

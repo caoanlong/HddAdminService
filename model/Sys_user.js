@@ -3,6 +3,7 @@ const sequelize = require('./sequelize')
 
 const Sys_role = require('../model/Sys_role')
 const Sys_user_role = require('../model/Sys_user_role')
+const Sys_organization = require('../model/Sys_organization')
 
 /* 系统权限角色 */
 const Sys_user = sequelize.define('sys_user', {
@@ -115,6 +116,8 @@ const Sys_user = sequelize.define('sys_user', {
 
 Sys_user.belongsToMany(Sys_role, {through: Sys_user_role, foreignKey: 'user_id'})
 Sys_role.belongsToMany(Sys_user, {through: Sys_user_role, foreignKey: 'role_id'})
+Sys_user.belongsTo(Sys_organization, {as: 'company', foreignKey: 'Company_ID'})
+Sys_user.belongsTo(Sys_organization, {as: 'department', foreignKey: 'Organization_ID'})
 
 module.exports = Sys_user
 

@@ -103,7 +103,7 @@ router.post('/add', (req, res) => {
 
 /* 修改机构 */
 router.post('/update', (req, res) => {
-	let Organization_ID = req.body.Organization_ID || '0'
+	let Organization_ID = req.body.Organization_ID
 	let Organization_PID = req.body.Organization_PID || '0'
 	let Area_ID = req.body.Area_ID
 	let Name = req.body.Name
@@ -149,7 +149,23 @@ router.post('/update', (req, res) => {
 		UpdateDate: new Date()
 	}, {
 		where: {
-			Role_ID
+			Organization_ID
+		}
+	}).then(() => {
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 删除机构 */
+router.post('/delete', (req, res) => {
+	let Organization_ID = req.body.Organization_ID
+	Sys_organization.destroy({
+		where: {
+			Organization_ID
 		}
 	}).then(() => {
 		res.json(responseData)

@@ -7,6 +7,7 @@ const secret = require('../config/secret')
 const Sys_user = require('../model/Sys_user')
 const Sys_role = require('../model/Sys_role')
 const Sys_user_role = require('../model/Sys_user_role')
+const Sys_organization = require('../model/Sys_organization')
 
 // 统一返回格式
 let responseData
@@ -25,21 +26,41 @@ router.get('/list', (req, res) => {
 	let pageSize = Number(req.query.pageSize || 10)
 	let LoginName = req.query.LoginName
 	let Name = req.query.Name
+	let Company_ID = req.query.Company_ID
+	let Organization_ID = req.query.Organization_ID
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
 	let where
-	if (LoginName || Name) {
-		where = {
-			$or: [
-				{
-					LoginName: {
-						$like: '%' + LoginName + '%'
-					},
-					Name: {
-						$like: '%' + Name + '%'
+	if (LoginName || Name || Company_ID || Organization_ID) {
+		if (Organization_ID) {
+			where = {
+				$or: [
+					{
+						LoginName: {
+							$like: '%' + LoginName + '%'
+						},
+						Name: {
+							$like: '%' + Name + '%'
+						},
+						Company_ID,
+						Organization_ID
 					}
-				}
-			]
+				]
+			}
+		} else {
+			where = {
+				$or: [
+					{
+						LoginName: {
+							$like: '%' + LoginName + '%'
+						},
+						Name: {
+							$like: '%' + Name + '%'
+						},
+						Company_ID
+					}
+				]
+			}
 		}
 	} else {
 		where = {}
@@ -50,6 +71,16 @@ router.get('/list', (req, res) => {
 		limit: pageSize,
 		order: [
 			['CreateDate', 'DESC']
+		],
+		include: [
+			{
+				model: Sys_organization,
+				as: 'company'
+			},
+			{
+				model: Sys_organization,
+				as: 'department'
+			}
 		]
 	}).then(sys_users => {
 		responseData.data = sys_users
@@ -63,9 +94,19 @@ router.get('/list', (req, res) => {
 router.get('/info', (req, res) => {
 	let User_ID = req.query.User_ID
 	Sys_user.findById(User_ID, {
-		include: [{
-			model: Sys_role
-		}]
+		include: [
+			{
+				model: Sys_role
+			},
+			{
+				model: Sys_organization,
+				as: 'company'
+			},
+			{
+				model: Sys_organization,
+				as: 'department'
+			}
+		]
 	}).then(sys_user => {
 		responseData.data = sys_user
 		res.json(responseData)

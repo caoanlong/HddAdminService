@@ -56,11 +56,8 @@ router.post('/add', (req, res) => {
 	let name = req.body.name
 	let SortNumber = req.body.SortNumber
 	let path = req.body.path
-	let component = req.body.component
-	let redirect = req.body.redirect
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
-	let IsMenu = req.body.IsMenu
 	let sys_roles = req.body.sys_roles || []
 	let CreateBy = req.body.CreateBy || '1'
 	let UpdateBy = req.body.UpdateBy || '1'
@@ -71,11 +68,8 @@ router.post('/add', (req, res) => {
 		name,
 		SortNumber,
 		path,
-		component,
-		redirect,
 		Icon,
 		IsShow,
-		IsMenu,
 		CreateBy,
 		UpdateBy,
 		Remark
@@ -102,11 +96,8 @@ router.post('/update', (req, res) => {
 	let name = req.body.name
 	let SortNumber = req.body.SortNumber
 	let path = req.body.path
-	let component = req.body.component
-	let redirect = req.body.redirect
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
-	let IsMenu = req.body.IsMenu
 	let sys_roles = req.body.sys_roles || []
 	let CreateBy = req.body.CreateBy || '1'
 	let UpdateBy = req.body.UpdateBy || '1'
@@ -117,11 +108,8 @@ router.post('/update', (req, res) => {
 		name, 
 		SortNumber, 
 		path, 
-		component,
-		redirect,
 		Icon,
 		IsShow,
-		IsMenu,
 		CreateBy,
 		UpdateBy,
 		Remark,
