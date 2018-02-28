@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const menusTree = require('../utils/sortTree')
+const menusTree = require('../utils/sortTree').menusTree
 // const Promise = require('bluebird')
 
 const Sys_menu = require('../model/Sys_menu')

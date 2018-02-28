@@ -51,4 +51,46 @@ function menusTree(source) {
 	})
 }
 
-module.exports = menusTree
+function set_contenttopicsTree(source) {
+	let data = source.map(item => {
+		return {
+			ContentTopic_ID: item.ContentTopic_ID,
+			ContentTopic_PID: item.ContentTopic_PID,
+			Type: item.Type,
+			Code: item.Code,
+			Name: item.Name,
+			isEnable: item.isEnable,
+			CreateBy: item.CreateBy,
+			CreateTime: item.CreateTime,
+			UpdateBy: item.UpdateBy,
+			UpdateTime: item.UpdateTime,
+			DeleteFlag: item.DeleteFlag,
+			DeleteBy: item.DeleteBy,
+			DeleteTime: item.DeleteTime
+		}
+	})
+	let json = [], hash = {}
+	return new Promise((resolve, reject) => {
+		for (let i = 0; i < data.length; i++) {
+			hash[data[i].ContentTopic_ID] = data[i]
+		}
+		let hashVP
+		for (let j = 0; j < data.length; j++) {
+			hashVP = hash[data[j].ContentTopic_PID]
+			if (hashVP) {
+				if (!hashVP.children) {
+					hashVP.children = []
+				}
+				hashVP.children.push(data[j])
+			} else {  
+				json.push(data[j])
+			}
+		}
+		resolve(json)
+	})
+}
+
+module.exports = {
+	menusTree,
+	set_contenttopicsTree
+}

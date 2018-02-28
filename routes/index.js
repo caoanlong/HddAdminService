@@ -24,9 +24,10 @@ router.use((req, res, next) => {
 
 router.use((req, res, next) => {
 	if (req.url.includes('login') 
-		|| req.url.includes('sys_organization') 
+		|| req.url.includes('pay_loginvoke') 
 		|| req.url.includes('sys_menu')
-		|| req.url.includes('sys_user')) {
+		|| req.url.includes('sys_user')
+		|| req.url.includes('set_content')) {
 		next()
 		return
 	}
@@ -67,5 +68,12 @@ router.use('/sys_settings', require('./sys_settings'))
 router.use('/base_conststand', require('./base_conststand'))
 router.use('/base_area', require('./base_area'))
 router.use('/sys_organization', require('./sys_organization'))
+router.use('/sys_log', require('./sys_log'))
+router.use('/sys_logapi', require('./sys_logapi'))
+router.use('/sys_logsms', require('./sys_logsms'))
+// router.use('/set_message', require('./set_message'))
+router.use('/pay_loginvoke', require('./pay_loginvoke'))
+router.use('/set_contenttopic', require('./set_contenttopic'))
+router.use('/set_content', require('./set_content'))
 
 module.exports = router
