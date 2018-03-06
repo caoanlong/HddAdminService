@@ -24,10 +24,10 @@ router.use((req, res, next) => {
 
 router.use((req, res, next) => {
 	if (req.url.includes('login') 
-		|| req.url.includes('pay_loginvoke') 
+		|| req.url.includes('base_truckbrand') 
 		|| req.url.includes('sys_menu')
 		|| req.url.includes('sys_user')
-		|| req.url.includes('set_content')) {
+		|| req.url.includes('set_message')) {
 		next()
 		return
 	}
@@ -71,9 +71,12 @@ router.use('/sys_organization', require('./sys_organization'))
 router.use('/sys_log', require('./sys_log'))
 router.use('/sys_logapi', require('./sys_logapi'))
 router.use('/sys_logsms', require('./sys_logsms'))
-// router.use('/set_message', require('./set_message'))
+router.use('/set_message', require('./set_message'))
+router.use('/set_messagetemplate', require('./set_messagetemplate'))
 router.use('/pay_loginvoke', require('./pay_loginvoke'))
 router.use('/set_contenttopic', require('./set_contenttopic'))
 router.use('/set_content', require('./set_content'))
+router.use('/set_apppage', require('./set_apppage'))
+router.use('/base_truckbrand', require('./base_truckbrand'))
 
 module.exports = router

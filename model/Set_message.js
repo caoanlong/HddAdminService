@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const sequelize = require('./sequelize')
 
 const Mem_member = require('./Mem_member')
+const Set_messagetemplate = require('./Set_messagetemplate')
 
 /* 交易管理短信日志 */
 const Set_message = sequelize.define('set_message', {
@@ -74,6 +75,7 @@ const Set_message = sequelize.define('set_message', {
 	// 创建时间
 	CreateTime: {
 		type: Sequelize.DATE,
+		defaultValue: new Date(),
 		allowNull: false
 	},
 	// 
@@ -99,6 +101,7 @@ const Set_message = sequelize.define('set_message', {
 
 Set_message.belongsTo(Mem_member, {as: 'mem_rec', foreignKey: 'Mem_RecID'})
 Set_message.belongsTo(Mem_member, {as: 'mem_send', foreignKey: 'Mem_SendID'})
+Set_message.belongsTo(Set_messagetemplate, {as: 'msgTemplate', foreignKey: 'MsgTemplate_ID'})
 
 module.exports = Set_message
 

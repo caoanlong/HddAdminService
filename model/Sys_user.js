@@ -5,7 +5,7 @@ const Sys_role = require('../model/Sys_role')
 const Sys_user_role = require('../model/Sys_user_role')
 const Sys_organization = require('../model/Sys_organization')
 
-/* 系统权限角色 */
+/* 系统权限用户 */
 const Sys_user = sequelize.define('sys_user', {
 	// 编号
 	User_ID: {
