@@ -17,61 +17,74 @@ router.use((req, res, next) => {
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
-	let Phones = req.query.Phones
+	// let Phones = req.query.Phones
 	let BusinessType = req.query.BusinessType
-	let Status = req.query.Status
+	// let Status = req.query.Status
 	pageIndex = Math.max(pageIndex, 1)
 	let offset = (pageIndex - 1) * pageSize
 	let where
-	if (Phones || BusinessType || Status) {
-		if (BusinessType && Status) {
-			where = {
-				$or: [
-					{
-						Phones: {
-							$like: '%' + Phones + '%'
-						},
-						BusinessType,
-						Status
+	if (BusinessType) {
+		where = {
+			$or: [
+				{
+					BusinessType: {
+						$like: '%' + BusinessType + '%'
 					}
-				]
-			}
-		} else if (BusinessType) {
-			where = {
-				$or: [
-					{
-						Phones: {
-							$like: '%' + Phones + '%'
-						},
-						BusinessType
-					}
-				]
-			}
-		} else if (Status) {
-			where = {
-				$or: [
-					{
-						Phones: {
-							$like: '%' + Phones + '%'
-						},
-						Status
-					}
-				]
-			}
-		} else {
-			where = {
-				$or: [
-					{
-						Phones: {
-							$like: '%' + Phones + '%'
-						}
-					}
-				]
-			}
+				}
+			]
 		}
 	} else {
 		where = {}
 	}
+	// if (Phones || BusinessType || Status) {
+	// 	if (BusinessType && Status) {
+	// 		where = {
+	// 			$or: [
+	// 				{
+	// 					Phones: {
+	// 						$like: '%' + Phones + '%'
+	// 					},
+	// 					BusinessType,
+	// 					Status
+	// 				}
+	// 			]
+	// 		}
+	// 	} else if (BusinessType) {
+	// 		where = {
+	// 			$or: [
+	// 				{
+	// 					Phones: {
+	// 						$like: '%' + Phones + '%'
+	// 					},
+	// 					BusinessType
+	// 				}
+	// 			]
+	// 		}
+	// 	} else if (Status) {
+	// 		where = {
+	// 			$or: [
+	// 				{
+	// 					Phones: {
+	// 						$like: '%' + Phones + '%'
+	// 					},
+	// 					Status
+	// 				}
+	// 			]
+	// 		}
+	// 	} else {
+	// 		where = {
+	// 			$or: [
+	// 				{
+	// 					Phones: {
+	// 						$like: '%' + Phones + '%'
+	// 					}
+	// 				}
+	// 			]
+	// 		}
+	// 	}
+	// } else {
+	// 	where = {}
+	// }
 	Sys_logsms.findAndCountAll({
 		where: where,
 		offset: offset,

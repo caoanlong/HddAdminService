@@ -41,7 +41,7 @@ const Base_conststand = sequelize.define('base_conststand', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
@@ -51,7 +51,7 @@ const Base_conststand = sequelize.define('base_conststand', {
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间
@@ -68,7 +68,7 @@ const Base_conststand = sequelize.define('base_conststand', {
 	},
 	// 删除人
 	DeleteBy: {
-		type: Sequelize.STRING(64)
+		type: Sequelize.BIGINT(32)
 	},
 	// 删除时间
 	DeleteTime: {

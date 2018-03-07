@@ -5,14 +5,13 @@ const sequelize = require('./sequelize')
 const Sys_dict = sequelize.define('sys_dict', {
 	// 编号
 	Dict_ID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		primaryKey: true,
-		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 父级编号
 	Dict_PID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		defaultValue: '1'
 	},
 	// 类型
@@ -42,21 +41,21 @@ const Sys_dict = sequelize.define('sys_dict', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
-	CreateDate: {
+	CreateTime: {
 		type: Sequelize.DATE,
 		defaultValue: new Date()
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间
-	UpdateDate: {
+	UpdateTime: {
 		type: Sequelize.DATE,
 		defaultValue: new Date()
 	},

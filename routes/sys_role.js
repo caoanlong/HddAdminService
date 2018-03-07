@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const snowflake = require('../utils/snowflake')
 
 const Sys_role = require('../model/Sys_role')
 const Sys_menu = require('../model/Sys_menu')
@@ -78,6 +79,7 @@ router.get('/info', (req, res) => {
 
 /* 添加角色 */
 router.post('/add', (req, res) => {
+	let Role_ID = snowflake.nextId()
 	let Organization_ID = req.body.Organization_ID || ''
 	let Name = req.body.Name
 	let EnName = req.body.EnName
@@ -91,6 +93,7 @@ router.post('/add', (req, res) => {
 	let DelFlag = req.body.DelFlag || ''
 	let sys_users = req.body.sys_users || []
 	Sys_role.create({
+		Role_ID,
 		Organization_ID,
 		Name,
 		EnName,

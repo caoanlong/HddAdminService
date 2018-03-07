@@ -15,7 +15,7 @@ config.set('test-mysql', {
 	port: 3306,
 	user: 'root',
 	password: 'We@123456',
-	database: 'hdd_admin'
+	database: 'hdd_admin_2'
 })
 
 module.exports = config

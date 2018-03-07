@@ -3,6 +3,7 @@ const router = express.Router()
 const Sequelize = require('sequelize')
 const jwt = require('jwt-simple')
 const secret = require('../config/secret')
+const snowflake = require('../utils/snowflake')
 
 const Sys_user = require('../model/Sys_user')
 const Sys_role = require('../model/Sys_role')
@@ -118,6 +119,7 @@ router.get('/info', (req, res) => {
 
 /* 添加用户 */
 router.post('/add', (req, res) => {
+	let User_ID = snowflake.nextId()
 	let Company_ID = req.body.Company_ID || ''
 	let Organization_ID = req.body.Organization_ID || ''
 	let LoginName = req.body.LoginName
@@ -138,6 +140,7 @@ router.post('/add', (req, res) => {
 	let Remark = req.body.Remark || ''
 	let sys_roles = req.body.sys_roles
 	Sys_user.create({
+		User_ID,
 		Company_ID,
 		Organization_ID,
 		LoginName,
@@ -175,6 +178,7 @@ router.post('/add', (req, res) => {
 router.post('/addmutip', (req, res) => {
 	let users = req.body.users
 	for (let i = 0; i < users.length; i++) {
+		users[i].User_ID = snowflake.nextId()
 		users[i].CreateBy = '1'
 		users[i].UpdateBy = '1'
 		users[i].Remark = ''

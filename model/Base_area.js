@@ -65,7 +65,7 @@ const Base_area = sequelize.define('base_area', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
@@ -75,7 +75,7 @@ const Base_area = sequelize.define('base_area', {
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const snowflake = require('../utils/snowflake')
 
 const Sys_dict = require('../model/Sys_dict')
 
@@ -52,7 +53,7 @@ router.get('/list', (req, res) => {
 		offset: offset,
 		limit: pageSize,
 		order: [
-			['CreateDate', 'DESC']
+			['CreateTime', 'DESC']
 		]
 	}).then(sys_dicts => {
 		responseData.data = sys_dicts
@@ -70,7 +71,7 @@ router.get('/list/type', (req, res) => {
 			TYPE
 		},
 		order: [
-			['CreateDate', 'DESC']
+			['CreateTime', 'DESC']
 		]
 	}).then(sys_dicts => {
 		responseData.data = sys_dicts
@@ -105,6 +106,7 @@ router.get('/info', (req, res) => {
 
 /* 添加字典 */
 router.post('/add', (req, res) => {
+	let Dict_ID = snowflake.nextId()
 	let VALUE = req.body.VALUE
 	let TYPE = req.body.TYPE
 	let SortNumber = req.body.SortNumber
@@ -114,6 +116,7 @@ router.post('/add', (req, res) => {
 	let UpdateBy = req.body.UpdateBy || '1'
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_dict.create({
+		Dict_ID,
 		VALUE,
 		TYPE,
 		SortNumber,
@@ -151,7 +154,7 @@ router.post('/update', (req, res) => {
 		CreateBy,
 		UpdateBy,
 		DeleteFlag,
-		UpdateDate: new Date()
+		UpdateTime: new Date()
 	}, {
 		where: {
 			Dict_ID

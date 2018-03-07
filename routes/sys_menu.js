@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const menusTree = require('../utils/sortTree').menusTree
-// const Promise = require('bluebird')
+const snowflake = require('../utils/snowflake')
 
 const Sys_menu = require('../model/Sys_menu')
 const Sys_role = require('../model/Sys_role')
@@ -51,11 +51,12 @@ router.get('/info', (req, res) => {
 
 /* 添加菜单 */
 router.post('/add', (req, res) => {
+	let Menu_ID = snowflake.nextId()
 	let Menu_PID = req.body.Menu_PID
-	let title = req.body.title
-	let name = req.body.name
+	let Name = req.body.Name
+	let Target = req.body.Target
 	let SortNumber = req.body.SortNumber
-	let path = req.body.path
+	let Href = req.body.Href
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
 	let sys_roles = req.body.sys_roles || []
@@ -63,11 +64,12 @@ router.post('/add', (req, res) => {
 	let UpdateBy = req.body.UpdateBy || '1'
 	let Remark = req.body.Remark || '1'
 	Sys_menu.create({
+		Menu_ID,
 		Menu_PID,
-		title,
-		name,
+		Name,
+		Target,
 		SortNumber,
-		path,
+		Href,
 		Icon,
 		IsShow,
 		CreateBy,
@@ -92,10 +94,10 @@ router.post('/add', (req, res) => {
 router.post('/update', (req, res) => {
 	let Menu_ID = req.body.Menu_ID
 	let Menu_PID = req.body.Menu_PID
-	let title = req.body.title
-	let name = req.body.name
+	let Name = req.body.Name
+	let Target = req.body.Target
 	let SortNumber = req.body.SortNumber
-	let path = req.body.path
+	let Href = req.body.Href
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
 	let sys_roles = req.body.sys_roles || []
@@ -104,10 +106,10 @@ router.post('/update', (req, res) => {
 	let Remark = req.body.Remark || ''
 	Sys_menu.update({
 		Menu_PID, 
-		title, 
-		name, 
+		Name, 
+		Target, 
 		SortNumber, 
-		path, 
+		Href, 
 		Icon,
 		IsShow,
 		CreateBy,

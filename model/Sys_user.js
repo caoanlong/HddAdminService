@@ -11,7 +11,6 @@ const Sys_user = sequelize.define('sys_user', {
 	User_ID: {
 		type: Sequelize.BIGINT(32),
 		primaryKey: true,
-		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 归属公司
@@ -84,7 +83,7 @@ const Sys_user = sequelize.define('sys_user', {
 	},
 	// 创建时间
 	CreateDate: {
-		type: Sequelize.DATEONLY,
+		type: Sequelize.DATE,
 		defaultValue: new Date()
 	},
 	// 更新者
@@ -93,7 +92,7 @@ const Sys_user = sequelize.define('sys_user', {
 	},
 	// 更新时间
 	UpdateDate: {
-		type: Sequelize.DATEONLY,
+		type: Sequelize.DATE,
 		defaultValue: new Date()
 	},
 	// 备注信息

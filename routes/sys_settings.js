@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const moment = require('moment')
+const snowflake = require('../utils/snowflake')
 
 const Sys_settings = require('../model/Sys_settings')
 
@@ -64,6 +64,7 @@ router.get('/info', (req, res) => {
 
 /* 添加系统配置 */
 router.post('/add', (req, res) => {
+	let Setting_ID = snowflake.nextId()
 	let Code = req.body.Code
 	let Name = req.body.Name
 	let Value = req.body.Value
@@ -73,6 +74,7 @@ router.post('/add', (req, res) => {
 	let UpdateBy = req.body.UpdateBy || '1'
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_settings.create({
+		Setting_ID,
 		Code,
 		Name,
 		Value,
@@ -110,7 +112,7 @@ router.post('/update', (req, res) => {
 		CreateBy,
 		UpdateBy,
 		DeleteFlag,
-		UpdateDate: moment()
+		UpdateTime: new Date()
 	}, {
 		where: {
 			Setting_ID

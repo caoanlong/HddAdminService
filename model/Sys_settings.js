@@ -6,14 +6,13 @@ const moment = require('moment')
 const Sys_settings = sequelize.define('sys_settings', {
 	// ID
 	Setting_ID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		primaryKey: true,
-		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 父ID
 	Setting_PID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		defaultValue: '1'
 	},
 	// 代码
@@ -43,23 +42,23 @@ const Sys_settings = sequelize.define('sys_settings', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
-	CreateDate: {
+	CreateTime: {
 		type: Sequelize.DATE,
-		defaultValue: moment()
+		defaultValue: new Date()
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间
-	UpdateDate: {
+	UpdateTime: {
 		type: Sequelize.DATE,
-		defaultValue: moment()
+		defaultValue: new Date()
 	},
 	// 删除标记
 	DeleteFlag: {

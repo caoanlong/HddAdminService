@@ -70,4 +70,38 @@ router.get('/list', (req, res) => {
 	})
 })
 
+/* 获取消息详情 */
+router.get('/info', (req, res) => {
+	let Msg_ID = req.query.Msg_ID
+	Set_message.findById(Msg_ID, {
+		include: [
+			{
+				model: Mem_member,
+				as: 'mem_rec'
+			},
+			{
+				model: Mem_member,
+				as: 'mem_send'
+			},
+			{
+				model: Set_messagetemplate,
+				as: 'msgTemplate',
+				include: [
+					{
+						model: Set_apppage,
+						as: 'AppPage'
+					}
+				]
+			}
+		]
+	}).then(set_message => {
+		responseData.data = set_message
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
 module.exports = router

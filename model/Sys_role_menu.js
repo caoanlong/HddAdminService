@@ -5,12 +5,12 @@ const sequelize = require('./sequelize')
 const Sys_role_menu = sequelize.define('sys_role_menu', {
 	// // 角色编号
 	role_id: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 菜单编号
 	menu_id: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	}
 })

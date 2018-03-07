@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const uuidNum = require('../utils/randomNumber')
+const snowflake = require('../utils/snowflake')
 
 const Base_conststand = require('../model/Base_conststand')
 
@@ -47,7 +47,6 @@ router.get('/list', (req, res) => {
 			]
 		}
 	}
-	console.log(Type, Name)
 	Base_conststand.findAndCountAll({
 		where: where,
 		offset: offset,
@@ -67,6 +66,22 @@ router.get('/list', (req, res) => {
 	})
 })
 
+/* 根据类型获取标准常量 */
+router.get('/list/type', (req, res) => {
+	let Type = req.query.Type
+	Base_conststand.findAll({
+		where: {
+			Type
+		},
+		order: [
+			['CreateTime', 'DESC']
+		]
+	}).then(base_conststands => {
+		responseData.data = base_conststands
+		res.json(responseData)
+	})
+})
+
 /* 获取标准常量详情 */
 router.get('/info', (req, res) => {
 	let ConstStd_ID = req.query.ConstStd_ID
@@ -82,6 +97,7 @@ router.get('/info', (req, res) => {
 
 /* 添加标准常量 */
 router.post('/add', (req, res) => {
+	let ConstStd_ID = snowflake.nextId()
 	let Code = req.body.Code
 	let Name = req.body.Name
 	let Value = req.body.Value
@@ -91,7 +107,7 @@ router.post('/add', (req, res) => {
 	let CreateBy = req.body.CreateBy || '1'
 	let UpdateBy = req.body.UpdateBy || '1'
 	Base_conststand.create({
-		ConstStd_ID: uuidNum(),
+		ConstStd_ID,
 		Code,
 		Name,
 		Value,

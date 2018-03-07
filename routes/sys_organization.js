@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const uuidNum = require('../utils/randomNumber')
+const snowflake = require('../utils/snowflake')
 
 const Sys_organization = require('../model/Sys_organization')
 const Base_area = require('../model/Base_area')
@@ -51,6 +51,7 @@ router.get('/info', (req, res) => {
 
 /* 添加机构 */
 router.post('/add', (req, res) => {
+	let Organization_ID = snowflake.nextId()
 	let Organization_PID = req.body.Organization_PID || '0'
 	let Area_ID = req.body.Area_ID
 	let Name = req.body.Name
@@ -72,6 +73,7 @@ router.post('/add', (req, res) => {
 	let UpdateBy = req.body.UpdateBy || '1'
 	let DelFlag = req.body.DelFlag || ''
 	Sys_organization.create({
+		Organization_ID,
 		Organization_PID,
 		Area_ID,
 		Name,

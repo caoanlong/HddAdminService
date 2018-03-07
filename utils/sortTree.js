@@ -13,12 +13,12 @@ function sortAll(arr) {
 function menusTree(source) {
 	let data = source.map(item => {
 		return {
-			Menu_ID: item.Menu_ID,
-			Menu_PID: item.Menu_PID,
-			name: item.name,
-			title: item.title,
+			Menu_ID: String(item.Menu_ID),
+			Menu_PID: String(item.Menu_PID),
+			Name: item.Name,
+			Target: item.Target,
 			SortNumber: item.SortNumber,
-			path: item.path,
+			Href: item.Href,
 			Icon: item.Icon,
 			IsShow: item.IsShow,
 			Visable: item.Visable,

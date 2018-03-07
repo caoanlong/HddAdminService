@@ -5,14 +5,13 @@ const sequelize = require('./sequelize')
 const Sys_role = sequelize.define('sys_role', {
 	// 编号
 	Role_ID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		primaryKey: true,
-		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 归属机构
 	Organization_ID: {
-		type: Sequelize.STRING(64)
+		type: Sequelize.BIGINT(32)
 	},
 	// 角色名称
 	Name: {
@@ -41,7 +40,7 @@ const Sys_role = sequelize.define('sys_role', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
@@ -51,7 +50,7 @@ const Sys_role = sequelize.define('sys_role', {
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间

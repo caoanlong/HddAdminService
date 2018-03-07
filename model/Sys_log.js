@@ -45,7 +45,7 @@ const Sys_log = sequelize.define('sys_log', {
 	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64)
+		type: Sequelize.BIGINT(32)
 	},
 	// 创建时间
 	CreateDate: {

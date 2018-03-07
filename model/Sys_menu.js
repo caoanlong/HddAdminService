@@ -8,25 +8,30 @@ const Sys_role_menu = require('../model/Sys_role_menu')
 const Sys_menu = sequelize.define('sys_menu', {
 	// 编号
 	Menu_ID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		primaryKey: true,
-		defaultValue: Sequelize.UUIDV1,
 		allowNull: false
 	},
 	// 父级编号
 	Menu_PID: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
+		defaultValue: '',
+		allowNull: false
+	},
+	// 所有父级编号
+	ParentIds: {
+		type: Sequelize.STRING(2000),
 		defaultValue: '',
 		allowNull: false
 	},
 	// 英文名称
-	name: {
+	Name: {
 		type: Sequelize.STRING(100),
 		allowNull: false
 	},
 	// 名称
-	title: {
-		type: Sequelize.STRING(100),
+	Target: {
+		type: Sequelize.STRING(20),
 		allowNull: false
 	},
 	// 排序
@@ -35,7 +40,7 @@ const Sys_menu = sequelize.define('sys_menu', {
 		allowNull: false
 	},
 	// 链接路径
-	path: {
+	Href: {
 		type: Sequelize.STRING(2000)
 	},
 	// 图标
@@ -47,9 +52,12 @@ const Sys_menu = sequelize.define('sys_menu', {
 		type: Sequelize.CHAR(1),
 		allowNull: false
 	},
+	Permission: {
+		type: Sequelize.STRING(200)
+	},
 	// 创建者
 	CreateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 创建时间
@@ -59,7 +67,7 @@ const Sys_menu = sequelize.define('sys_menu', {
 	},
 	// 更新者
 	UpdateBy: {
-		type: Sequelize.STRING(64),
+		type: Sequelize.BIGINT(32),
 		allowNull: false
 	},
 	// 更新时间
