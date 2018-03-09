@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jwt-simple')
-const secret = require('../config/secret')
+const jwtConfig = require('../config/jwtConfig')
 
 // 统一返回格式
 let responseData
@@ -24,7 +24,7 @@ router.use((req, res, next) => {
 
 router.use((req, res, next) => {
 	if (req.url.includes('login') 
-		|| req.url.includes('base_truckbrand') 
+		|| req.url.includes('user') 
 		|| req.url.includes('sys_menu')
 		|| req.url.includes('sys_user')
 		|| req.url.includes('set_message')) {
@@ -34,7 +34,7 @@ router.use((req, res, next) => {
 	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
 	if (token) {
 		try {
-			let decoded = jwt.decode(token, secret.jwtTokenSecret)
+			let decoded = jwt.decode(token, jwtConfig.secret)
 			if (decoded) {
 				next()
 			}else {

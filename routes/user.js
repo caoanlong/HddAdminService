@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Sequelize = require('sequelize')
 const jwt = require('jwt-simple')
-const secret = require('../config/secret')
+const jwtConfig = require('../config/jwtConfig')
 
 const Sys_user = require('../model/Sys_user')
 const Sys_role = require('../model/Sys_role')
@@ -16,6 +16,14 @@ router.use((req, res, next) => {
 		msg: '成功'
 	}
 	next()
+})
+
+// 测试token
+router.post('/token', (req, res) => {
+	let token = req.body.token
+	console.log(token)
+	let result = jwt.decode(token, jwtConfig.secret)
+	res.send(result)
 })
 
 /* 用户登录 */
@@ -34,10 +42,10 @@ router.post('/login', (req, res) => {
 	}
 	Sys_user.findOne({LoginName}).then(sys_user => {
 		if (sys_user) {
-			let token = jwt.encode({
-				iss: sys_user.User_ID,
-				exp: 1000*60*60*24*365
-			},secret.jwtTokenSecret)
+			let payload = {
+				User_ID: sys_user.User_ID
+			}
+			let token = jwt.encode(payload, jwtConfig.secret)
 			res.set({'X-Access-Token': token})
 			responseData.data = sys_user
 			res.json(responseData)
@@ -56,7 +64,7 @@ router.post('/login', (req, res) => {
 /* 获取个人资料详情 */
 router.get('/info', (req, res) => {
 	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
-	let User_ID = jwt.decode(token, secret.jwtTokenSecret).iss
+	let User_ID = jwt.decode(token, jwtConfig.secret).iss
 	Sys_user.findById(User_ID, {
 		include: [{
 			model: Sys_role

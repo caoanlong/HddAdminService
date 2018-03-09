@@ -32,6 +32,18 @@ router.get('/list', (req, res) => {
 	})
 })
 
+/* 获取所有机构列表 */
+router.get('/list/all', (req, res) => {
+	Sys_organization.findAll().then(sys_organizations => {
+		responseData.data = sys_organizations
+		res.json(responseData)
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
 /* 获取机构详情 */
 router.get('/info', (req, res) => {
 	let Organization_ID = req.query.Organization_ID

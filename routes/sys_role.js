@@ -7,6 +7,7 @@ const Sys_menu = require('../model/Sys_menu')
 const Sys_user = require('../model/Sys_user')
 const Sys_user_role = require('../model/Sys_user_role')
 const Sys_role_menu = require('../model/Sys_role_menu')
+const Sys_organization = require('../model/Sys_organization')
 
 // 统一返回格式
 let responseData
@@ -46,6 +47,11 @@ router.get('/list', (req, res) => {
 		limit: pageSize,
 		order: [
 			['CreateDate', 'DESC']
+		],
+		include: [
+			{
+				model: Sys_organization
+			}
 		]
 	}).then(sys_roles => {
 		responseData.data = sys_roles
