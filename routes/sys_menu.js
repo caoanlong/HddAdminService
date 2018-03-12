@@ -1,11 +1,14 @@
 const express = require('express')
 const router = express.Router()
+const jwt = require('jwt-simple')
+const jwtConfig = require('../config/jwtConfig')
 const menusTree = require('../utils/sortTree').menusTree
 const snowflake = require('../utils/snowflake')
 
 const Sys_menu = require('../model/Sys_menu')
 const Sys_role = require('../model/Sys_role')
 const Sys_role_menu = require('../model/Sys_role_menu')
+const Sys_user = require('../model/Sys_user')
 
 // 统一返回格式
 let responseData
@@ -20,6 +23,35 @@ router.use((req, res, next) => {
 
 /* 获取菜单列表 */
 router.get('/list', (req, res) => {
+	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
+	let User_ID = jwt.decode(token, jwtConfig.secret).User_ID
+	Sys_user.findById(User_ID, {
+		include: [
+			{
+				model: Sys_role,
+				include: [
+					{
+						model: Sys_menu
+					}
+				]
+			}
+		]
+	}).then(sys_user => {
+		let arr = sys_user.sys_roles.map(item => item.sys_menus)
+		responseData.permissions = arr[0].map(item => item.Target)
+		menusTree(arr[0]).then(menus => {
+			responseData.data = menus
+			res.json(responseData)
+		})
+	}).catch(err => {
+		responseData.code = 100
+		responseData.msg = '错误：' + err
+		res.json(responseData)
+	})
+})
+
+/* 获取所有菜单列表 */
+router.get('/list/all', (req, res) => {
 	Sys_menu.findAll().then(sys_menus => {
 		menusTree(sys_menus).then(menus => {
 			responseData.data = menus
