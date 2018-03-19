@@ -55,6 +55,7 @@ router.get('/info', (req, res) => {
 
 /* 添加内容 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Content_ID = snowflake.nextId()
 	let ContentTopic_ID = req.body.ContentTopic_ID
 	let Name = req.body.Name
@@ -66,7 +67,8 @@ router.post('/add', (req, res) => {
 	let Sort = req.body.Sort
 	let isEnable = req.body.isEnable
 	let Tips = req.body.Tips
-	let CreateBy = req.body.CreateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	Set_content.create({
 		Content_ID,
 		ContentTopic_ID,
@@ -79,7 +81,8 @@ router.post('/add', (req, res) => {
 		Sort,
 		isEnable,
 		Tips,
-		CreateBy
+		CreateBy,
+		UpdateBy
 	}).then(() => {
 		res.json(responseData)
 	}).catch(err => {
@@ -91,6 +94,7 @@ router.post('/add', (req, res) => {
 
 /* 修改内容 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Content_ID = req.body.Content_ID
 	let ContentTopic_ID = req.body.ContentTopic_ID
 	let Name = req.body.Name
@@ -102,7 +106,7 @@ router.post('/update', (req, res) => {
 	let Sort = req.body.Sort
 	let isEnable = req.body.isEnable
 	let Tips = req.body.Tips
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	Set_content.update({
 		Content_ID,
 		ContentTopic_ID,

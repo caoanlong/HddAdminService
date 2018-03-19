@@ -134,8 +134,8 @@ router.post('/add', (req, res) => {
 	let Photo = req.body.Photo || ''
 	let PCID = req.body.PCID || ''
 	let LoginFlag = req.body.LoginFlag
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = req.user.userID
+	let UpdateBy = req.user.userID
 	let Remark = req.body.Remark || ''
 	let sys_roles = req.body.sys_roles
 	Sys_user.create({
@@ -178,8 +178,8 @@ router.post('/addmutip', (req, res) => {
 	let users = req.body.users
 	for (let i = 0; i < users.length; i++) {
 		users[i].User_ID = snowflake.nextId()
-		users[i].CreateBy = '1'
-		users[i].UpdateBy = '1'
+		users[i].CreateBy = req.user.userID
+		users[i].UpdateBy = req.user.userID
 		users[i].Remark = ''
 	}
 	Sys_user.bulkCreate(users).then(sys_user => {
@@ -209,8 +209,7 @@ router.post('/update', (req, res) => {
 	let Photo = req.body.Photo || ''
 	let PCID = req.body.PCID || ''
 	let LoginFlag = req.body.LoginFlag
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = req.user.userID
 	let Remark = req.body.Remark || ''
 	let sys_roles = req.body.sys_roles || []
 	Sys_user.update({
@@ -229,7 +228,6 @@ router.post('/update', (req, res) => {
 		Photo,
 		PCID,
 		LoginFlag,
-		CreateBy,
 		UpdateBy,
 		Remark,
 		UpdateDate: new Date()

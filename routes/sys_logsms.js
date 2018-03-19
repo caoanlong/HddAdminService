@@ -36,55 +36,6 @@ router.get('/list', (req, res) => {
 	} else {
 		where = {}
 	}
-	// if (Phones || BusinessType || Status) {
-	// 	if (BusinessType && Status) {
-	// 		where = {
-	// 			$or: [
-	// 				{
-	// 					Phones: {
-	// 						$like: '%' + Phones + '%'
-	// 					},
-	// 					BusinessType,
-	// 					Status
-	// 				}
-	// 			]
-	// 		}
-	// 	} else if (BusinessType) {
-	// 		where = {
-	// 			$or: [
-	// 				{
-	// 					Phones: {
-	// 						$like: '%' + Phones + '%'
-	// 					},
-	// 					BusinessType
-	// 				}
-	// 			]
-	// 		}
-	// 	} else if (Status) {
-	// 		where = {
-	// 			$or: [
-	// 				{
-	// 					Phones: {
-	// 						$like: '%' + Phones + '%'
-	// 					},
-	// 					Status
-	// 				}
-	// 			]
-	// 		}
-	// 	} else {
-	// 		where = {
-	// 			$or: [
-	// 				{
-	// 					Phones: {
-	// 						$like: '%' + Phones + '%'
-	// 					}
-	// 				}
-	// 			]
-	// 		}
-	// 	}
-	// } else {
-	// 	where = {}
-	// }
 	Sys_logsms.findAndCountAll({
 		where: where,
 		offset: offset,

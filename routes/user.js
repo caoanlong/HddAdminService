@@ -63,8 +63,7 @@ router.post('/login', (req, res) => {
 
 /* 获取个人资料详情 */
 router.get('/info', (req, res) => {
-	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
-	let User_ID = jwt.decode(token, jwtConfig.secret).iss
+	let User_ID = req.user.userID
 	Sys_user.findById(User_ID, {
 		include: [{
 			model: Sys_role
@@ -81,9 +80,7 @@ router.get('/info', (req, res) => {
 
 /* 修改个人资料 */
 router.post('/update', (req, res) => {
-	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
-	let User_ID = jwt.decode(token, secret.jwtTokenSecret).iss
-
+	let User_ID = req.user.userID
 	let Photo = req.body.Photo
 	let Name = req.body.Name
 	let Email = req.body.Email

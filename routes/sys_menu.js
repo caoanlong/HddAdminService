@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const jwt = require('jwt-simple')
-const jwtConfig = require('../config/jwtConfig')
+
 const menusTree = require('../utils/sortTree').menusTree
 const snowflake = require('../utils/snowflake')
 
@@ -22,9 +21,8 @@ router.use((req, res, next) => {
 
 
 /* 获取菜单列表 */
-router.get('/list', (req, res) => {
-	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
-	let User_ID = jwt.decode(token, jwtConfig.secret).User_ID
+router.get('/list', (req, res, dd) => {
+	let User_ID = req.user.userID
 	Sys_user.findById(User_ID, {
 		include: [
 			{
@@ -37,6 +35,7 @@ router.get('/list', (req, res) => {
 			}
 		]
 	}).then(sys_user => {
+		console.log(sys_user)
 		let arr = sys_user.sys_roles.map(item => item.sys_menus)
 		responseData.permissions = arr[0].map(item => item.Target)
 		menusTree(arr[0]).then(menus => {
@@ -83,6 +82,7 @@ router.get('/info', (req, res) => {
 
 /* 添加菜单 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Menu_ID = snowflake.nextId()
 	let Menu_PID = req.body.Menu_PID
 	let Name = req.body.Name
@@ -92,8 +92,6 @@ router.post('/add', (req, res) => {
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
 	let sys_roles = req.body.sys_roles || []
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
 	let Remark = req.body.Remark || '1'
 	Sys_menu.create({
 		Menu_ID,
@@ -104,8 +102,8 @@ router.post('/add', (req, res) => {
 		Href,
 		Icon,
 		IsShow,
-		CreateBy,
-		UpdateBy,
+		CreateBy: User_ID,
+		UpdateBy: User_ID,
 		Remark
 	}).then(sys_menu => {
 		for (let i = 0; i < sys_roles.length; i++) {
@@ -124,6 +122,7 @@ router.post('/add', (req, res) => {
 
 /* 修改菜单 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Menu_ID = req.body.Menu_ID
 	let Menu_PID = req.body.Menu_PID
 	let Name = req.body.Name
@@ -133,8 +132,6 @@ router.post('/update', (req, res) => {
 	let Icon = req.body.Icon
 	let IsShow = req.body.IsShow
 	let sys_roles = req.body.sys_roles || []
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
 	let Remark = req.body.Remark || ''
 	Sys_menu.update({
 		Menu_PID, 
@@ -144,8 +141,7 @@ router.post('/update', (req, res) => {
 		Href, 
 		Icon,
 		IsShow,
-		CreateBy,
-		UpdateBy,
+		UpdateBy: User_ID,
 		Remark,
 		UpdateDate: new Date()
 	},{

@@ -74,19 +74,22 @@ router.get('/info', (req, res) => {
 
 /* 添加车辆品牌 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let TruckBrand_ID = snowflake.nextId()
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Enable = req.body.Enable
 	let PictureURL = req.body.PictureURL
-	let CreateBy = req.body.CreateBy || '1'
+	let CreateBy = req.body.User_ID
+	let UpdateBy = User_ID
 	Base_truckbrand.create({
 		TruckBrand_ID,
 		Name,
 		Code,
 		Enable,
 		PictureURL,
-		CreateBy
+		CreateBy,
+		UpdateBy
 	}).then(() => {
 		res.json(responseData)
 	}).catch(err => {
@@ -98,12 +101,13 @@ router.post('/add', (req, res) => {
 
 /* 修改车辆品牌 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let TruckBrand_ID = req.body.TruckBrand_ID
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Enable = req.body.Enable
 	let PictureURL = req.body.PictureURL
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	Base_truckbrand.update({
 		Name,
 		Code,

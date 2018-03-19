@@ -17,25 +17,22 @@ router.use((req, res, next) => {
 router.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*")
 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
-	res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Access-Token')
+	res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Access-Token,Authorization')
 	res.header('Access-Control-Expose-Headers', 'Content-Type,Accept,X-Access-Token')
 	next()
 })
 
 router.use((req, res, next) => {
-	if (req.url.includes('login') 
-		|| req.url.includes('user') 
-		|| req.url.includes('sys_menu')
-		|| req.url.includes('sys_user')
-		|| req.url.includes('set_message')) {
+	if (req.url.includes('login')) {
 		next()
 		return
 	}
-	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token']
+	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['authorization']
 	if (token) {
 		try {
 			let decoded = jwt.decode(token, jwtConfig.secret)
 			if (decoded) {
+				req.user = decoded
 				next()
 			}else {
 				responseData.code = '1003'

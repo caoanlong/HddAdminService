@@ -54,13 +54,15 @@ router.get('/info', (req, res) => {
 
 /* 添加内容栏目 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let ContentTopic_ID = snowflake.nextId()
 	let ContentTopic_PID = req.body.ContentTopic_PID
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Type = req.body.Type
 	let isEnable = req.body.isEnable
-	let CreateBy = req.body.CreateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	Set_contenttopic.create({
 		ContentTopic_ID,
 		ContentTopic_PID,
@@ -68,7 +70,8 @@ router.post('/add', (req, res) => {
 		Code,
 		Type,
 		isEnable,
-		CreateBy
+		CreateBy,
+		UpdateBy
 	}).then(() => {
 		res.json(responseData)
 	}).catch(err => {
@@ -80,19 +83,21 @@ router.post('/add', (req, res) => {
 
 /* 修改内容栏目 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let ContentTopic_ID = req.body.ContentTopic_ID
 	let ContentTopic_PID = req.body.ContentTopic_PID
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Type = req.body.Type
 	let isEnable = req.body.isEnable
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	Set_contenttopic.update({
 		ContentTopic_PID,
 		Name,
 		Code,
 		Type,
 		isEnable,
+		UpdateBy,
 		UpdateTime: new Date()
 	},{
 		where: {

@@ -56,6 +56,7 @@ function nameTrans (Depth, Name) {
 
 /* 添加地区 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Area_PID = req.body.Area_PID
 	let Depth = req.body.Depth
 	let Code = req.body.Code
@@ -64,8 +65,8 @@ router.post('/add', (req, res) => {
 	let Lat = req.body.Lat
 	let HotspotStatus = req.body.HotspotStatus
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	let transName = nameTrans(Depth, Name)
 
 	// 查找父级节点
@@ -100,6 +101,7 @@ router.post('/add', (req, res) => {
 
 /* 修改地区 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Area_ID = req.body.Area_ID
 	let Area_PID = req.body.Area_PID
 	let Depth = req.body.Depth
@@ -109,8 +111,7 @@ router.post('/update', (req, res) => {
 	let Lat = req.body.Lat
 	let HotspotStatus = req.body.HotspotStatus
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	let transName = nameTrans(Depth, Name)
 
 	// 查找父级节点
@@ -131,7 +132,6 @@ router.post('/update', (req, res) => {
 			Depth,
 			SortNumber,
 			FullOriginalName: base_area.FullOriginalName + transName + ',',
-			CreateBy,
 			UpdateBy,
 			UpdateTime: new Date()
 		},{

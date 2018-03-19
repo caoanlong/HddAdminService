@@ -85,6 +85,7 @@ router.get('/info', (req, res) => {
 
 /* 添加角色 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Role_ID = snowflake.nextId()
 	let Organization_ID = req.body.Organization_ID || ''
 	let Name = req.body.Name
@@ -93,8 +94,8 @@ router.post('/add', (req, res) => {
 	let DataScope = req.body.DataScope
 	let Issys = req.body.Issys
 	let Useable = req.body.Useable
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	let Remark = req.body.Remark || ''
 	let DelFlag = req.body.DelFlag || ''
 	let sys_users = req.body.sys_users || []
@@ -128,6 +129,7 @@ router.post('/add', (req, res) => {
 
 /* 修改角色 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Role_ID = req.body.Role_ID
 	let Organization_ID = req.body.Organization_ID || ''
 	let Name = req.body.Name
@@ -136,8 +138,7 @@ router.post('/update', (req, res) => {
 	let DataScope = req.body.DataScope
 	let Issys = req.body.Issys
 	let Useable = req.body.Useable
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	let Remark = req.body.Remark || ''
 	let DelFlag = req.body.DelFlag || ''
 	Sys_role.update({
@@ -148,7 +149,6 @@ router.post('/update', (req, res) => {
 		DataScope,
 		Issys,
 		Useable,
-		CreateBy,
 		UpdateBy,
 		Remark,
 		DelFlag,

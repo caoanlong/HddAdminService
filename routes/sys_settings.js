@@ -64,14 +64,15 @@ router.get('/info', (req, res) => {
 
 /* 添加系统配置 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Setting_ID = snowflake.nextId()
 	let Code = req.body.Code
 	let Name = req.body.Name
 	let Value = req.body.Value
 	let SortNumber = req.body.SortNumber
 	let Description = req.body.Description
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_settings.create({
 		Setting_ID,
@@ -94,14 +95,14 @@ router.post('/add', (req, res) => {
 
 /* 修改系统配置 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Setting_ID = req.body.Setting_ID
 	let Code = req.body.Code
 	let Name = req.body.Name
 	let Value = req.body.Value
 	let SortNumber = req.body.SortNumber
 	let Description = req.body.Description
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_settings.update({
 		Code,
@@ -109,7 +110,6 @@ router.post('/update', (req, res) => {
 		Value,
 		SortNumber,
 		Description,
-		CreateBy,
 		UpdateBy,
 		DeleteFlag,
 		UpdateTime: new Date()

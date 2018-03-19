@@ -63,6 +63,7 @@ router.get('/info', (req, res) => {
 
 /* 添加机构 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Organization_ID = snowflake.nextId()
 	let Organization_PID = req.body.Organization_PID || '0'
 	let Area_ID = req.body.Area_ID
@@ -81,8 +82,8 @@ router.post('/add', (req, res) => {
 	let Address = req.body.Address
 	let Remark = req.body.Remark
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	let DelFlag = req.body.DelFlag || ''
 	Sys_organization.create({
 		Organization_ID,
@@ -117,6 +118,7 @@ router.post('/add', (req, res) => {
 
 /* 修改机构 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Organization_ID = req.body.Organization_ID
 	let Organization_PID = req.body.Organization_PID || '0'
 	let Area_ID = req.body.Area_ID
@@ -135,8 +137,7 @@ router.post('/update', (req, res) => {
 	let Address = req.body.Address
 	let Remark = req.body.Remark
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	let DelFlag = req.body.DelFlag || ''
 	Sys_organization.update({
 		Organization_ID,
@@ -157,7 +158,6 @@ router.post('/update', (req, res) => {
 		Address,
 		Remark,
 		SortNumber,
-		CreateBy,
 		UpdateBy,
 		DelFlag,
 		UpdateDate: new Date()

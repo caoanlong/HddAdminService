@@ -88,6 +88,7 @@ router.get('/info', (req, res) => {
 
 /* 添加消息模板 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let MessageTemplate_ID = snowflake.nextId()
 	let AppPage_ID = req.body.AppPage_ID
 	let ForwardURL = req.body.ForwardURL
@@ -100,7 +101,7 @@ router.post('/add', (req, res) => {
 	let JSONSample = req.body.JSONSample
 	let isEnable = req.body.isEnable
 	let PushType = req.body.PushType
-	let CreateBy = req.body.CreateBy || '1'
+	let CreateBy = User_ID
 	Set_messagetemplate.create({
 		MessageTemplate_ID,
 		AppPage_ID,
@@ -126,6 +127,7 @@ router.post('/add', (req, res) => {
 
 /* 修改消息模板 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let MessageTemplate_ID = req.body.MessageTemplate_ID
 	let AppPage_ID = req.body.AppPage_ID
 	let ForwardURL = req.body.ForwardURL
@@ -138,7 +140,7 @@ router.post('/update', (req, res) => {
 	let JSONSample = req.body.JSONSample
 	let isEnable = req.body.isEnable
 	let PushType = req.body.PushType
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	Set_messagetemplate.update({
 		AppPage_ID,
 		ForwardURL,
@@ -168,10 +170,11 @@ router.post('/update', (req, res) => {
 
 /* 批量添加消息模板 */
 router.post('/addmutip', (req, res) => {
+	let User_ID = req.user.userID
 	let messagetemplates = req.body.messagetemplates
 	for (let i = 0; i < messagetemplates.length; i++) {
-		messagetemplates[i].CreateBy = '1'
-		messagetemplates[i].UpdateBy = '1'
+		messagetemplates[i].CreateBy = User_ID
+		messagetemplates[i].UpdateBy = User_ID
 	}
 	Sys_user.bulkCreate(users).then(() => {
 		res.json(responseData)

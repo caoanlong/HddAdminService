@@ -106,14 +106,15 @@ router.get('/info', (req, res) => {
 
 /* 添加字典 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let Dict_ID = snowflake.nextId()
 	let VALUE = req.body.VALUE
 	let TYPE = req.body.TYPE
 	let SortNumber = req.body.SortNumber
 	let NAME = req.body.NAME
 	let Description = req.body.Description
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_dict.create({
 		Dict_ID,
@@ -136,14 +137,14 @@ router.post('/add', (req, res) => {
 
 /* 修改字典 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let Dict_ID = req.body.Dict_ID
 	let VALUE = req.body.VALUE
 	let TYPE = req.body.TYPE
 	let SortNumber = req.body.SortNumber
 	let NAME = req.body.NAME
 	let Description = req.body.Description
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_dict.update({
 		VALUE,
@@ -151,7 +152,6 @@ router.post('/update', (req, res) => {
 		SortNumber,
 		NAME,
 		Description,
-		CreateBy,
 		UpdateBy,
 		DeleteFlag,
 		UpdateTime: new Date()

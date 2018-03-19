@@ -97,6 +97,7 @@ router.get('/info', (req, res) => {
 
 /* 添加标准常量 */
 router.post('/add', (req, res) => {
+	let User_ID = req.user.userID
 	let ConstStd_ID = snowflake.nextId()
 	let Code = req.body.Code
 	let Name = req.body.Name
@@ -104,8 +105,8 @@ router.post('/add', (req, res) => {
 	let Type = req.body.Type
 	let Description = req.body.Description
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let CreateBy = User_ID
+	let UpdateBy = User_ID
 	Base_conststand.create({
 		ConstStd_ID,
 		Code,
@@ -127,11 +128,12 @@ router.post('/add', (req, res) => {
 
 /* 批量添加标准常量 */
 router.post('/addmutip', (req, res) => {
+	let User_ID = req.user.userID
 	let consts = req.body.consts
 	for (let i = 0; i < consts.length; i++) {
 		consts[i].ConstStd_ID = uuidNum()
-		consts[i].CreateBy = '1'
-		consts[i].UpdateBy = '1'
+		consts[i].CreateBy = User_ID
+		consts[i].UpdateBy = User_ID
 	}
 	Base_conststand.bulkCreate(consts).then(base_conststand => {
 		res.json(responseData)
@@ -144,6 +146,7 @@ router.post('/addmutip', (req, res) => {
 
 /* 修改标准常量 */
 router.post('/update', (req, res) => {
+	let User_ID = req.user.userID
 	let ConstStd_ID = req.body.ConstStd_ID
 	let Code = req.body.Code
 	let Name = req.body.Name
@@ -151,8 +154,7 @@ router.post('/update', (req, res) => {
 	let Type = req.body.Type
 	let Description = req.body.Description
 	let SortNumber = req.body.SortNumber
-	let CreateBy = req.body.CreateBy || '1'
-	let UpdateBy = req.body.UpdateBy || '1'
+	let UpdateBy = User_ID
 	Base_conststand.update({
 		Code,
 		Name,
@@ -160,7 +162,6 @@ router.post('/update', (req, res) => {
 		Type,
 		Description,
 		SortNumber,
-		CreateBy,
 		UpdateBy,
 		UpdateTime: new Date()
 	}, {
