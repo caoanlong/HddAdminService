@@ -5,7 +5,7 @@ const Sys_role = require('../model/Sys_role')
 const Sys_role_menu = require('../model/Sys_role_menu')
 
 /* 系统菜单 */
-const Sys_menu = sequelize.define('sys_menu', {
+const Sys_menu = sequelize.define('sys_menu_2', {
 	// 编号
 	Menu_ID: {
 		type: Sequelize.BIGINT(32),

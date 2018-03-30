@@ -23,17 +23,9 @@ router.get('/list', (req, res) => {
 	let PushStatus = req.query.PushStatus
 	pageIndex = Math.max(pageIndex, 1)
 	let offset = (pageIndex - 1) * pageSize
-	let where
+	let where = {}
 	if (PushStatus) {
-		where = {
-			$or: [
-				{
-					PushStatus
-				}
-			]
-		}
-	} else {
-		where = {}
+		where['PushStatus'] = PushStatus
 	}
 	Set_message.findAndCountAll({
 		where: where,

@@ -23,6 +23,7 @@ router.use((req, res, next) => {
 /* 获取菜单列表 */
 router.get('/list', (req, res, dd) => {
 	let User_ID = req.user.userID
+	// let User_ID = 1
 	Sys_user.findById(User_ID, {
 		include: [
 			{
@@ -35,8 +36,8 @@ router.get('/list', (req, res, dd) => {
 			}
 		]
 	}).then(sys_user => {
-		console.log(sys_user)
-		let arr = sys_user.sys_roles.map(item => item.sys_menus)
+		// 表改为sys_menu_2
+		let arr = sys_user.sys_roles.map(item => item.sys_menu_2s)
 		responseData.permissions = arr[0].map(item => item.Target)
 		menusTree(arr[0]).then(menus => {
 			responseData.data = menus

@@ -23,39 +23,17 @@ router.get('/list', (req, res) => {
 	let LogType = req.query.LogType
 	pageIndex = Math.max(pageIndex, 1)
 	let offset = (pageIndex - 1) * pageSize
-	let where
-	if (ReqParams || DeviceType || LogType) {
-		if (DeviceType) {
-			where = {
-				$or: [
-					{
-						ReqParams: {
-							$like: '%' + ReqParams + '%'
-						},
-						LogType: {
-							$like: '%' + LogType + '%'
-						},
-						DeviceType
-					}
-				]
-			}
-		} else {
-			where = {
-				$or: [
-					{
-						ReqParams: {
-							$like: '%' + ReqParams + '%'
-						},
-						LogType: {
-							$like: '%' + LogType + '%'
-						}
-					}
-				]
-			}
-		}
-	} else {
-		where = {}
+	let where = {}
+	if (ReqParams) {
+		where['ReqParams'] = { $like: '%' + ReqParams + '%' }
 	}
+	if (LogType) {
+		where['LogType'] = { $like: '%' + LogType + '%' }
+	}
+	if (DeviceType) {
+		where['DeviceType'] = DeviceType
+	}
+	
 	Sys_logapi.findAndCountAll({
 		where: where,
 		offset: offset,

@@ -11,24 +11,7 @@ function sortAll(arr) {
 }
 
 function menusTree(source) {
-	let data = source.map(item => {
-		return {
-			Menu_ID: String(item.Menu_ID),
-			Menu_PID: String(item.Menu_PID),
-			Name: item.Name,
-			Target: item.Target,
-			SortNumber: item.SortNumber,
-			Href: item.Href,
-			Icon: item.Icon,
-			IsShow: item.IsShow,
-			Visable: item.Visable,
-			CreateBy: item.CreateBy,
-			CreateDate: item.CreateDate,
-			UpdateBy: item.UpdateBy,
-			UpdateDate: item.UpdateDate,
-			Remark: item.Remark
-		}
-	})
+	let data = source.map(item => Object.assign({}, item.dataValues))
 	let json = [], hash = {}
 	return new Promise((resolve, reject) => {
 		for (let i = 0; i < data.length; i++) {
@@ -52,23 +35,7 @@ function menusTree(source) {
 }
 
 function set_contenttopicsTree(source) {
-	let data = source.map(item => {
-		return {
-			ContentTopic_ID: item.ContentTopic_ID,
-			ContentTopic_PID: item.ContentTopic_PID,
-			Type: item.Type,
-			Code: item.Code,
-			Name: item.Name,
-			isEnable: item.isEnable,
-			CreateBy: item.CreateBy,
-			CreateTime: item.CreateTime,
-			UpdateBy: item.UpdateBy,
-			UpdateTime: item.UpdateTime,
-			DeleteFlag: item.DeleteFlag,
-			DeleteBy: item.DeleteBy,
-			DeleteTime: item.DeleteTime
-		}
-	})
+	let data = source.map(item => Object.assign({}, item.dataValues))
 	let json = [], hash = {}
 	return new Promise((resolve, reject) => {
 		for (let i = 0; i < data.length; i++) {

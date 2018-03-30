@@ -30,39 +30,18 @@ router.get('/list', (req, res) => {
 	let Organization_ID = req.query.Organization_ID
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	let where
-	if (LoginName || Name || Company_ID || Organization_ID) {
-		if (Organization_ID) {
-			where = {
-				$or: [
-					{
-						LoginName: {
-							$like: '%' + LoginName + '%'
-						},
-						Name: {
-							$like: '%' + Name + '%'
-						},
-						Company_ID,
-						Organization_ID
-					}
-				]
-			}
-		} else {
-			where = {
-				$or: [
-					{
-						LoginName: {
-							$like: '%' + LoginName + '%'
-						},
-						Name: {
-							$like: '%' + Name + '%'
-						}
-					}
-				]
-			}
-		}
-	} else {
-		where = {}
+	let where = {}
+	if (LoginName) {
+		where['LoginName'] = { $like: '%' + LoginName + '%' }
+	}
+	if (Name) {
+		where['Name'] = { $like: '%' + Name + '%' }
+	}
+	if (Company_ID) {
+		where['Company_ID'] = Company_ID
+	}
+	if (Organization_ID) {
+		where['Organization_ID'] = Organization_ID
 	}
 	Sys_user.findAndCountAll({
 		where: where,

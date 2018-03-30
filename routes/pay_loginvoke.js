@@ -20,19 +20,9 @@ router.get('/list', (req, res) => {
 	let PayLogInvoke_ID = req.query.PayLogInvoke_ID
 	pageIndex = Math.max(pageIndex, 1)
 	let offset = (pageIndex - 1) * pageSize
-	let where
+	let where = {}
 	if (PayLogInvoke_ID) {
-		where = {
-			$or: [
-				{
-					PayLogInvoke_ID: {
-						$like: '%' + PayLogInvoke_ID + '%'
-					}
-				}
-			]
-		}
-	} else {
-		where = {}
+		where['PayLogInvoke_ID'] = { $like: '%' + PayLogInvoke_ID + '%' }
 	}
 	Pay_loginvoke.findAndCountAll({
 		where: where,

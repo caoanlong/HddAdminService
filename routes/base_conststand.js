@@ -24,28 +24,12 @@ router.get('/list', (req, res) => {
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
 
-	let where
+	let where = {}
 	if (Type) {
-		where = {
-			$or: [
-				{
-					Type: Type,
-					Name: {
-						$like: '%' + Name + '%'
-					}
-				}
-			]
-		}
-	} else {
-		where = {
-			$or: [
-				{
-					Name: {
-						$like: '%' + Name + '%'
-					}
-				}
-			]
-		}
+		where['Type'] = Type
+	}
+	if (Name) {
+		where['Name'] = { $like: '%' + Name + '%' }
 	}
 	Base_conststand.findAndCountAll({
 		where: where,

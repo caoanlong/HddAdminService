@@ -27,54 +27,27 @@ router.get('/list', (req, res) => {
 	let Exception = req.query.isException
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	let where
-	if (Title || CreateBy || RequestUri || Exception == 'true' || startDate != 0 || endDate != 0) {
-		if (Exception) {
-			where = {
-				$or: [
-					{
-						Title: {
-							$like: '%' + Title + '%'
-						},
-						CreateBy: {
-							$like: '%' + CreateBy + '%'
-						},
-						RequestUri: {
-							$like: '%' + RequestUri + '%'
-						},
-						Exception: {
-							$ne: ''
-						},
-						CreateDate: {
-							$gte: startDate,
-							$lte: endDate
-						}
-					}
-				]
-			}
-		} else {
-			where = {
-				$or: [
-					{
-						Title: {
-							$like: '%' + Title + '%'
-						},
-						CreateBy: {
-							$like: '%' + CreateBy + '%'
-						},
-						RequestUri: {
-							$like: '%' + RequestUri + '%'
-						},
-						CreateDate: {
-							$gte: startDate,
-							$lte: endDate
-						}
-					}
-				]
-			}
-		}
-	} else {
-		where = {}
+	let where = {}
+	if (Title) {
+		where['Title'] = { $like: '%' + Title + '%' }
+	}
+	if (CreateBy) {
+		where['CreateBy'] = { $like: '%' + CreateBy + '%' }
+	}
+	if (RequestUri) {
+		where['RequestUri'] = { $like: '%' + RequestUri + '%' }
+	}
+	if (Exception) {
+		where['Exception'] = { $ne: '' }
+	}
+	if (startDate || endDate) {
+		where['CreateDate'] = {}
+	}
+	if (startDate) {
+		where.CreateDate['$gte'] = startDate
+	}
+	if (endDate) {
+		where.CreateDate['$lte'] = endDate
 	}
 	Sys_log.findAndCountAll({
 		where: where,

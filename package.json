@@ -17,6 +17,7 @@
     "morgan": "~1.8.1",
     "mysql2": "^1.5.1",
     "node-snowflake": "^0.0.1",
+    "redis": "^2.8.0",
     "sequelize": "^4.32.2"
   }
 }

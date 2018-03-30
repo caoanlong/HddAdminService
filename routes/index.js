@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jwt-simple')
 const jwtConfig = require('../config/jwtConfig')
+const redisClient = require('../config/redisConfig')
 
 // 统一返回格式
 let responseData
@@ -23,7 +24,13 @@ router.use((req, res, next) => {
 })
 
 router.use((req, res, next) => {
+	// 过滤登录路由
 	if (req.url.includes('login')) {
+		next()
+		return
+	}
+	// 过滤预检请求
+	if (req.method == 'OPTIONS') {
 		next()
 		return
 	}
@@ -32,24 +39,33 @@ router.use((req, res, next) => {
 		try {
 			let decoded = jwt.decode(token, jwtConfig.secret)
 			if (decoded) {
-				req.user = decoded
-				next()
+				let isExists = redisClient.exists('User:' + decoded.userID)
+				if (isExists) {
+					req.user = decoded
+					next()
+				} else {
+					responseData.code = 1004
+					responseData.msg = '非法的Token!'
+					res.json(responseData)
+					return
+				}
 			}else {
-				responseData.code = '1003'
+				responseData.code = 1003
 				responseData.msg = '非法的Token!'
 				res.json(responseData)
 				return
 			}
 		} catch (err) {
 			if (err) {
-				responseData.code = '1002'
+				responseData.code = 1002
 				responseData.msg = '非法的Token!'
 				res.json(responseData)
 				return
 			}
 		}
 	}else {
-		responseData.code = '1001'
+		console.log('nima')
+		responseData.code = 1001
 		responseData.msg = '未登录!'
 		res.json(responseData)
 		return

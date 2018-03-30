@@ -13,28 +13,24 @@ router.use((req, res, next) => {
 	next()
 })
 
-/* 获取api日志列表 */
+/* 获取短信日志列表 */
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
 	let pageSize = Number(req.query.pageSize || 10)
-	// let Phones = req.query.Phones
+	let Phones = req.query.Phones
 	let BusinessType = req.query.BusinessType
-	// let Status = req.query.Status
+	let Status = req.query.Status
 	pageIndex = Math.max(pageIndex, 1)
 	let offset = (pageIndex - 1) * pageSize
-	let where
+	let where = {}
 	if (BusinessType) {
-		where = {
-			$or: [
-				{
-					BusinessType: {
-						$like: '%' + BusinessType + '%'
-					}
-				}
-			]
-		}
-	} else {
-		where = {}
+		where['BusinessType'] = BusinessType
+	}
+	if (Phones) {
+		where['Phones'] = { $like: '%' + Phones + '%' }
+	}
+	if (Status) {
+		where['Status'] = Status
 	}
 	Sys_logsms.findAndCountAll({
 		where: where,

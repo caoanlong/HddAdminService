@@ -27,19 +27,9 @@ router.get('/list', (req, res) => {
 	let Name = req.query.Name
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	let where
+	let where = {}
 	if (Name) {
-		where = {
-			$or: [
-				{
-					Name: {
-						$like: '%' + Name + '%'
-					}
-				}
-			]
-		}
-	} else {
-		where = {}
+		where['Name'] = { $like: '%' + Name + '%' }
 	}
 	Sys_role.findAndCountAll({
 		where: where,

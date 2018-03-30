@@ -14,6 +14,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api', require('./routes/index'))
+app.use('/weixin', require('./routes/weixin'))
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

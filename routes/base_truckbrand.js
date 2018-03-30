@@ -23,22 +23,12 @@ router.get('/list', (req, res) => {
 
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	let where
-	if (Code || Name) {
-		where = {
-			$or: [
-				{
-					Code: {
-						$like: '%' + Code + '%'
-					},
-					Name: {
-						$like: '%' + Name + '%'
-					}
-				}
-			]
-		}
-	} else {
-		where = {}
+	let where = {}
+	if (Code) {
+		where['Code'] = { $like: '%' + Code + '%' }
+	}
+	if (Name) {
+		where['Name'] = { $like: '%' + Name + '%' }
 	}
 	Base_truckbrand.findAndCountAll({
 		where: where,
