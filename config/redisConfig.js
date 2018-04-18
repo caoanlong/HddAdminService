@@ -5,7 +5,7 @@ const client = redis.createClient({
 	'password': '123456'
 })
 
-client.select('5', (err) => {
+client.select('6', (err) => {
 	if (err) {
 		console.log("Error " + err)
 		return false
