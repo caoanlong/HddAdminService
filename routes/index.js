@@ -45,7 +45,7 @@ router.use((req, res, next) => {
 			if (decoded) {
 				let isExists = redisClient.exists('User:' + decoded.header.kid)
 				if (isExists) {
-					req.user = decoded
+					req.user = { userID: decoded.header.kid}
 					next()
 				} else {
 					responseData.code = 1004
