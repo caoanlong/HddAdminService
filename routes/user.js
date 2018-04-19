@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Sequelize = require('sequelize')
-const jwt = require('jwt-simple')
-const jwtConfig = require('../config/jwtConfig')
 
 const Sys_user = require('../model/Sys_user')
 const Sys_role = require('../model/Sys_role')
@@ -16,14 +14,6 @@ router.use((req, res, next) => {
 		msg: '成功'
 	}
 	next()
-})
-
-// 测试token
-router.post('/token', (req, res) => {
-	let token = req.body.token
-	console.log(token)
-	let result = jwt.decode(token, jwtConfig.secret)
-	res.send(result)
 })
 
 /* 用户登录 */

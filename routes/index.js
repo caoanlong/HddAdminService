@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const jwt = require('jwt-simple')
+const jwt = require('jsonwebtoken')
 const jwtConfig = require('../config/jwtConfig')
 const redisClient = require('../config/redisConfig')
 
@@ -41,9 +41,9 @@ router.use((req, res, next) => {
 	let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['authorization']
 	if (token) {
 		try {
-			let decoded = jwt.decode(token, jwtConfig.secret)
+			let decoded = jwt.decode(token, jwtConfig)
 			if (decoded) {
-				let isExists = redisClient.exists('User:' + decoded.userID)
+				let isExists = redisClient.exists('User:' + decoded.header.kid)
 				if (isExists) {
 					req.user = decoded
 					next()

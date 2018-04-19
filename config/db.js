@@ -4,9 +4,9 @@ const config = new Map()
 config.set('mysql', {
 	host: '192.168.0.28',
 	port: 33060,
-	user: 'root',
+	user: 'hdd',
 	password: 'R84:5V736aKPJ9a3z>8VxJ8G',
-	database: 'hdd'
+	database: 'hdd_v3'
 })
 
 // test-mysql 测试
