@@ -1,4 +1,4 @@
-const config = require('../config/db').get('practice-mysql')
+const config = require('../config/db').get('mysql')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -60,6 +60,6 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
 
 // sequelize.sync()
 
-console.log('mysql connect success!!!')
+console.log('mysql connect success at ' + config.port + '!!!')
 
 module.exports = sequelize
