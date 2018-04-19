@@ -23,6 +23,10 @@ router.use((req, res, next) => {
 	next()
 })
 
+router.get('/', (req, res) => {
+	res.send('fuck you!')
+})
+
 router.use((req, res, next) => {
 	// 过滤登录路由
 	if (req.url.includes('login')) {
