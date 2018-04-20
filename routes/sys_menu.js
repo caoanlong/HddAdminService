@@ -40,8 +40,8 @@ router.get('/list', (req, res, dd) => {
 		// let arr = sys_user.sys_roles.map(item => item.sys_menu_2s)
 		let arr = []
 		for (let i = 0; i < sys_user.sys_roles.length; i++) {
-			for (let j = 0; j < sys_user.sys_roles[i].length; j++) {
-				arr.push(sys_user.sys_roles[i][j])
+			for (let j = 0; j < sys_user.sys_roles[i].sys_menu_2s.length; j++) {
+				arr.push(sys_user.sys_roles[i].sys_menu_2s[j])
 			}
 		}
 		console.log(arr)
