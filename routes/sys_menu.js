@@ -3,7 +3,6 @@ const router = express.Router()
 
 const menusTree = require('../utils/sortTree').menusTree
 const snowflake = require('../utils/snowflake')
-const dedupe  = require('../utils/common').dedupe
 
 const Sys_menu = require('../model/Sys_menu')
 const Sys_role = require('../model/Sys_role')
@@ -44,9 +43,15 @@ router.get('/list', (req, res, dd) => {
 				arr.push(sys_user.sys_roles[i].sys_menu_2s[j])
 			}
 		}
-		let permissions = dedupe(arr.map(item => item.Target))
-		responseData.permissions = permissions
-		let array = arr.filter(item => permissions.includes(item.Target))
+		let array = []
+		let json = {}
+		for(let i = 0; i < arr.length; i++){
+			if(!json[arr[i].Target]){
+				array.push(arr[i])
+				json[arr[i].Target] = 1
+			}
+		}
+		responseData.permissions = array.map(item => item.Target)
 		menusTree(array).then(menus => {
 			responseData.data = menus
 			res.json(responseData)
