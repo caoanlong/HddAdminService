@@ -37,17 +37,14 @@ router.get('/list', (req, res, dd) => {
 		]
 	}).then(sys_user => {
 		// 表改为sys_menu_2
-		// let arr = sys_user.sys_roles.map(item => item.sys_menu_2s)
 		let arr = []
 		for (let i = 0; i < sys_user.sys_roles.length; i++) {
 			for (let j = 0; j < sys_user.sys_roles[i].sys_menu_2s.length; j++) {
 				arr.push(sys_user.sys_roles[i].sys_menu_2s[j])
 			}
 		}
-		console.log(arr)
 		responseData.permissions = arr.map(item => item.Target)
 		menusTree(arr).then(menus => {
-			console.log(menus)
 			responseData.data = menus
 			res.json(responseData)
 		})
