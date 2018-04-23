@@ -63,6 +63,7 @@ const Sys_settings = sequelize.define('sys_settings', {
 	// 删除标记
 	DeleteFlag: {
 		type: Sequelize.CHAR(1),
+		defaultValue: 'N',
 		allowNull: false
 	}
 })

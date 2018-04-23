@@ -35,11 +35,13 @@ const Base_area = sequelize.define('base_area', {
 	},
 	// 经度
 	Lng: {
-		type: Sequelize.DOUBLE
+		type: Sequelize.DOUBLE,
+		defaultValue: 0
 	},
 	// 纬度
 	Lat: {
-		type: Sequelize.DOUBLE
+		type: Sequelize.DOUBLE,
+		defaultValue: 0
 	},
 	// 是否热点
 	HotspotStatus: {

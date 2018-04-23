@@ -57,12 +57,12 @@ function nameTrans (Depth, Name) {
 /* 添加地区 */
 router.post('/add', (req, res) => {
 	let User_ID = req.user.userID
-	let Area_PID = req.body.Area_PID
+	let Area_PID = req.body.Area_PID || 100000
 	let Depth = req.body.Depth
 	let Code = req.body.Code
 	let Name = req.body.Name
-	let Lng = req.body.Lng
-	let Lat = req.body.Lat
+	let Lng = req.body.Lng || 0
+	let Lat = req.body.Lat || 0
 	let HotspotStatus = req.body.HotspotStatus
 	let SortNumber = req.body.SortNumber
 	let CreateBy = User_ID
@@ -71,30 +71,42 @@ router.post('/add', (req, res) => {
 
 	// 查找父级节点
 	Base_area.findById(Area_PID).then(base_area => {
-		Base_area.create({
-			Area_ID: Code,
-			Area_PID: Area_PID,
-			OldCode: Code,
-			OldName: transName,
-			Code,
-			OriginalName: transName,
-			Name,
-			Lng,
-			Lat,
-			HotspotStatus,
-			Path: base_area.Path + Code + ',',
-			FullName: base_area.FullName + Name + ',',
-			Depth,
-			SortNumber,
-			FullOriginalName: base_area.FullOriginalName + transName + ',',
-			CreateBy,
-			UpdateBy
-		}).then(() => {
-			res.json(responseData)
-		}).catch(err => {
-			responseData.code = 100
-			responseData.msg = '错误：' + err
-			res.json(responseData)
+		let Path = base_area ? (base_area.Path + Code + ',') : Code
+		let FullName = base_area ? (base_area.FullName + Name + ',') : Name
+		let FullOriginalName = base_area ? (base_area.FullOriginalName + transName + ',') : transName
+
+		Base_area.findById(Code).then(base_area2 => {
+			if (base_area2) {
+				responseData.code = 101
+				responseData.msg = '区域编码已经存在！'
+				res.json(responseData)
+			} else {
+				Base_area.create({
+					Area_ID: Code,
+					Area_PID: Area_PID,
+					OldCode: Code,
+					OldName: transName,
+					OriginalName: transName,
+					Code,
+					Name,
+					Lng,
+					Lat,
+					HotspotStatus,
+					Path,
+					FullName,
+					Depth,
+					SortNumber,
+					FullOriginalName,
+					CreateBy,
+					UpdateBy
+				}).then(() => {
+					res.json(responseData)
+				}).catch(err => {
+					responseData.code = 100
+					responseData.msg = '错误：' + err
+					res.json(responseData)
+				})
+			}
 		})
 	})
 })
@@ -103,12 +115,12 @@ router.post('/add', (req, res) => {
 router.post('/update', (req, res) => {
 	let User_ID = req.user.userID
 	let Area_ID = req.body.Area_ID
-	let Area_PID = req.body.Area_PID
+	let Area_PID = req.body.Area_PID || 100000
 	let Depth = req.body.Depth
 	let Code = req.body.Code
 	let Name = req.body.Name
-	let Lng = req.body.Lng
-	let Lat = req.body.Lat
+	let Lng = req.body.Lng || 0
+	let Lat = req.body.Lat || 0
 	let HotspotStatus = req.body.HotspotStatus
 	let SortNumber = req.body.SortNumber
 	let UpdateBy = User_ID
@@ -116,22 +128,25 @@ router.post('/update', (req, res) => {
 
 	// 查找父级节点
 	Base_area.findById(Area_PID).then(base_area => {
+		let Path = base_area ? (base_area.Path + Code + ',') : Code
+		let FullName = base_area ? (base_area.FullName + Name + ',') : Name
+		let FullOriginalName = base_area ? (base_area.FullOriginalName + transName + ',') : transName
 		Base_area.update({
 			Area_ID: Code,
 			Area_PID: Area_PID,
 			OldCode: Code,
 			OldName: transName,
-			Code,
 			OriginalName: transName,
+			Code,
 			Name,
 			Lng,
 			Lat,
 			HotspotStatus,
-			Path: base_area.Path + Code + ',',
-			FullName: base_area.FullName + Name + ',',
+			Path,
+			FullName,
 			Depth,
 			SortNumber,
-			FullOriginalName: base_area.FullOriginalName + transName + ',',
+			FullOriginalName,
 			UpdateBy,
 			UpdateTime: new Date()
 		},{

@@ -23,7 +23,9 @@ router.get('/list', (req, res) => {
 
 	pageIndex = Math.max( pageIndex, 1 )
 	let offset = (pageIndex - 1) * pageSize
-	let where = {}
+	let where = {
+		'DeleteFlag': 'N'
+	}
 	if (Code) {
 		where['Code'] = { $like: '%' + Code + '%' }
 	}
@@ -69,7 +71,7 @@ router.post('/add', (req, res) => {
 	let Description = req.body.Description
 	let CreateBy = User_ID
 	let UpdateBy = User_ID
-	let DeleteFlag = req.body.DeleteFlag || ''
+	let DeleteFlag = req.body.DeleteFlag || 'N'
 	Sys_settings.create({
 		Setting_ID,
 		Code,
@@ -99,7 +101,6 @@ router.post('/update', (req, res) => {
 	let SortNumber = req.body.SortNumber
 	let Description = req.body.Description
 	let UpdateBy = User_ID
-	let DeleteFlag = req.body.DeleteFlag || ''
 	Sys_settings.update({
 		Code,
 		Name,
@@ -107,7 +108,6 @@ router.post('/update', (req, res) => {
 		SortNumber,
 		Description,
 		UpdateBy,
-		DeleteFlag,
 		UpdateTime: new Date()
 	}, {
 		where: {
