@@ -15,6 +15,10 @@ const Sys_organization = sequelize.define('sys_organization', {
 	Area_ID: {
 		type: Sequelize.BIGINT(32)
 	},
+	// 父级编号s
+	ParentIds: {
+		type: Sequelize.STRING(2000)
+	},
 	// 父级编号
 	Organization_PID: {
 		type: Sequelize.BIGINT(32),

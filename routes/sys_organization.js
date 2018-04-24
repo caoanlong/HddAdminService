@@ -84,35 +84,44 @@ router.post('/add', (req, res) => {
 	let SortNumber = req.body.SortNumber
 	let CreateBy = User_ID
 	let UpdateBy = User_ID
-	let DelFlag = req.body.DelFlag || ''
-	Sys_organization.create({
-		Organization_ID,
-		Organization_PID,
-		Area_ID,
-		Name,
-		Grade,
-		PrimaryPerson,
-		DeputyPerson,
-		Master,
-		Phone,
-		Useable,
-		Code,
-		Type,
-		ZipCode,
-		Fax,
-		Email,
-		Address,
-		Remark,
-		SortNumber,
-		CreateBy,
-		UpdateBy,
-		DelFlag
-	}).then(sys_organization => {
-		res.json(responseData)
-	}).catch(err => {
-		responseData.code = 100
-		responseData.msg = '错误：' + err
-		res.json(responseData)
+	let DelFlag = req.body.DelFlag || 'N'
+	let ParentIds = ''
+	Sys_organization.findById(Organization_PID).then(sys_organization => {
+		if (sys_organization) {
+			ParentIds = sys_organization.ParentIds + Organization_PID + ','
+		} else {
+			ParentIds = '0'
+		}
+		Sys_organization.create({
+			Organization_ID,
+			Organization_PID,
+			Area_ID,
+			Name,
+			Grade,
+			PrimaryPerson,
+			DeputyPerson,
+			Master,
+			Phone,
+			Useable,
+			Code,
+			Type,
+			ZipCode,
+			Fax,
+			Email,
+			Address,
+			Remark,
+			SortNumber,
+			CreateBy,
+			UpdateBy,
+			DelFlag,
+			ParentIds
+		}).then(sys_organization => {
+			res.json(responseData)
+		}).catch(err => {
+			responseData.code = 100
+			responseData.msg = '错误：' + err
+			res.json(responseData)
+		})
 	})
 })
 
