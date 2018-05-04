@@ -2,7 +2,7 @@ const redis = require('redis')
 const DEVURL = '192.168.1.48'
 const PROURL = '192.168.0.28'
 const client = redis.createClient({
-	'host': DEVURL,
+	'host': PROURL,
 	'port': 6379,
 	'password': '123456'
 })
