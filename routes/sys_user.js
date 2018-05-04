@@ -3,6 +3,7 @@ const router = express.Router()
 const Sequelize = require('sequelize')
 const jwt = require('jwt-simple')
 const snowflake = require('../utils/snowflake')
+const genPassword = require('../utils/cryptoPassword')
 
 const Sys_user = require('../model/Sys_user')
 const Sys_role = require('../model/Sys_role')
@@ -86,6 +87,7 @@ router.get('/info', (req, res) => {
 			}
 		]
 	}).then(sys_user => {
+		sys_user.Password = ''
 		responseData.data = sys_user
 		res.json(responseData)
 	}).catch(err => {
@@ -117,6 +119,7 @@ router.post('/add', (req, res) => {
 	let UpdateBy = req.user.userID
 	let Remark = req.body.Remark || ''
 	let sys_roles = req.body.sys_roles
+	Password = genPassword(Password)
 	Sys_user.create({
 		User_ID,
 		Company_ID,
@@ -160,6 +163,7 @@ router.post('/addmutip', (req, res) => {
 		users[i].CreateBy = req.user.userID
 		users[i].UpdateBy = req.user.userID
 		users[i].Remark = ''
+		Password = genPassword(users[i].Password)
 	}
 	Sys_user.bulkCreate(users).then(sys_user => {
 		res.json(responseData)
@@ -191,11 +195,10 @@ router.post('/update', (req, res) => {
 	let UpdateBy = req.user.userID
 	let Remark = req.body.Remark || ''
 	let sys_roles = req.body.sys_roles || []
-	Sys_user.update({
+	let property = {
 		Company_ID,
 		Organization_ID,
 		LoginName,
-		Password,
 		PayPassword,
 		JobNo,
 		Name,
@@ -210,7 +213,11 @@ router.post('/update', (req, res) => {
 		UpdateBy,
 		Remark,
 		UpdateDate: new Date()
-	},{
+	}
+	if (Password) {
+		property['Password'] = genPassword(Password)
+	}
+	Sys_user.update(property,{
 		where: {
 			User_ID
 		}

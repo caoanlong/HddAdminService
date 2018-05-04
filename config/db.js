@@ -15,7 +15,7 @@ config.set('test-mysql', {
 	port: 3306,
 	user: 'root',
 	password: 'We@123456',
-	database: 'hdd_v3_2_test'
+	database: 'hdd_v3_3_test'
 })
 
 // test-mysql 演练
