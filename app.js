@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 const app = express()
 
 app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json({limit: '100mb'}))
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
