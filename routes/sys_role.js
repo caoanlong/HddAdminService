@@ -159,19 +159,22 @@ router.post('/update', (req, res) => {
 /* 修改角色权限菜单 */
 router.post('/update/menu', (req, res) => {
 	let Role_ID = req.body.Role_ID
-	let sys_menus = req.body.sys_menus || ''
+	let sys_menus = req.body.sys_menus || []
 	Sys_role_menu.destroy({
 		where: {
 			role_id: Role_ID
 		}
 	}).then(() => {
+		let roleMenus = []
 		for (let i = 0; i < sys_menus.length; i++) {
-			Sys_role_menu.create({
+			roleMenus.push({
 				menu_id: sys_menus[i],
 				role_id: Role_ID
 			})
 		}
-		res.json(responseData)
+		Sys_role_menu.bulkCreate(roleMenus).then(() => {
+			res.json(responseData)
+		})
 	}).catch(err => {
 		responseData.code = 100
 		responseData.msg = '错误：' + err
@@ -183,19 +186,21 @@ router.post('/update/menu', (req, res) => {
 router.post('/update/user', (req, res) => {
 	let Role_ID = req.body.Role_ID
 	let sys_users = req.body.sys_users || ''
-	console.log(Role_ID, sys_users)
 	Sys_user_role.destroy({
 		where: {
 			role_id: Role_ID
 		}
 	}).then(() => {
+		let userRoles = []
 		for (let i = 0; i < sys_users.length; i++) {
-			Sys_user_role.create({
+			userRoles.push({
 				user_id: sys_users[i],
 				role_id: Role_ID
 			})
 		}
-		res.json(responseData)
+		Sys_user_role.bulkCreate(userRoles).then(() => {
+			res.json(responseData)
+		})
 	}).catch(err => {
 		responseData.code = 100
 		responseData.msg = '错误：' + err

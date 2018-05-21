@@ -20,7 +20,6 @@ router.use((req, res, next) => {
 	next()
 })
 
-
 /* 获取用户列表 */
 router.get('/list', (req, res) => {
 	let pageIndex = Number(req.query.pageIndex || 1)
