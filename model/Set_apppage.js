@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* App页面 */
 const Set_apppage = sequelize.define('set_apppage', {

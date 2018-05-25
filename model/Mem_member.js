@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 会员 */
 const Mem_member = sequelize.define('mem_member', {

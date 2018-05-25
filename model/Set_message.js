@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 const Mem_member = require('./Mem_member')
 const Set_messagetemplate = require('./Set_messagetemplate')

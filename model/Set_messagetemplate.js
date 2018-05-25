@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 const Sys_user = require('./Sys_user')
 const Set_apppage = require('./Set_apppage')
@@ -37,6 +37,10 @@ const Set_messagetemplate = sequelize.define('set_messagetemplate', {
 	// 标题
 	Title: {
 		type: Sequelize.STRING(100)
+	},
+	// 类型
+	type: {
+		type: Sequelize.STRING(50)
 	},
 	// 图标
 	IconURL: {

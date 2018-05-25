@@ -1,4 +1,4 @@
-const config = require('../config/db').get('test-mysql')
+const config = require('./db').get('test-mysql')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 

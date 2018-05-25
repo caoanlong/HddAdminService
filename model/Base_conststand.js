@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 标准常量 */
 const Base_conststand = sequelize.define('base_conststand', {

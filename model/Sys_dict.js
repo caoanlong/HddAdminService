@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 字典 */
 const Sys_dict = sequelize.define('sys_dict', {

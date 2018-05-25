@@ -5,14 +5,13 @@
  */
 
 const app = require('../app')
-const debug = require('debug')('demo:server')
 const http = require('http')
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3001')
+const port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
 
 /**
@@ -86,5 +85,5 @@ function onListening() {
 	let bind = typeof addr === 'string'
 		? 'pipe ' + addr
 		: 'port ' + addr.port
-	debug('Listening on ' + bind)
+	console.log('Listening on ' + bind)
 }

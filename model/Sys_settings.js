@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
-const moment = require('moment')
+const sequelize = require('../config/sequelize')
 
 /* 系统配置 */
 const Sys_settings = sequelize.define('sys_settings', {

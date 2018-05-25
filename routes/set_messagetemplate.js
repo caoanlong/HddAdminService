@@ -33,18 +33,10 @@ router.get('/list', (req, res) => {
 				model: Set_apppage,
 				as: 'AppPage'
 			},
-			// {
-			// 	model: Sys_user,
-			// 	as: 'createBy'
-			// },
-			// {
-			// 	model: Sys_user,
-			// 	as: 'updateBy'
-			// },
-			// {
-			// 	model: Sys_user,
-			// 	as: 'deleteBy'
-			// }
+			{
+				model: Sys_user,
+				as: 'createBy'
+			}
 		]
 	}).then(set_messagetemplates => {
 		responseData.data = set_messagetemplates
@@ -96,6 +88,7 @@ router.post('/add', (req, res) => {
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Title = req.body.Title
+	let type = req.body.type
 	let IconURL = req.body.IconURL
 	let Content = req.body.Content
 	let JSONSample = req.body.JSONSample
@@ -110,6 +103,7 @@ router.post('/add', (req, res) => {
 		Name,
 		Code,
 		Title,
+		type,
 		IconURL,
 		Content,
 		JSONSample,
@@ -135,6 +129,7 @@ router.post('/update', (req, res) => {
 	let Name = req.body.Name
 	let Code = req.body.Code
 	let Title = req.body.Title
+	let type = req.body.type
 	let IconURL = req.body.IconURL
 	let Content = req.body.Content
 	let JSONSample = req.body.JSONSample
@@ -148,6 +143,7 @@ router.post('/update', (req, res) => {
 		Name,
 		Code,
 		Title,
+		type,
 		IconURL,
 		Content,
 		JSONSample,

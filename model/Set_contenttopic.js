@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 内容栏目 */
 const Set_contenttopic = sequelize.define('set_contenttopic', {

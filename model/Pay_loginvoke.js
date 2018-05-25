@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 第三方支付接口日志 */
 const Pay_loginvoke = sequelize.define('pay_loginvoke', {

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 车辆品牌 */
 const Base_truckbrand = sequelize.define('base_truckbrand', {

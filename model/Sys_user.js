@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 const Sys_role = require('../model/Sys_role')
 const Sys_user_role = require('../model/Sys_user_role')

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('./sequelize')
+const sequelize = require('../config/sequelize')
 
 /* 短信发送日志 */
 const Sys_logsms = sequelize.define('sys_logsms', {
