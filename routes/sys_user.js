@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Sequelize = require('sequelize')
-const jwt = require('jwt-simple')
 const snowflake = require('../utils/snowflake')
 const genPassword = require('../utils/cryptoPassword')
 
