@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start:test": "cross-env env_config=test node ./bin/www",
+    "start:prac": "cross-env env_config=prac node ./bin/www",
+    "start:prod": "cross-env env_config=prod node ./bin/www"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.2.0",
     "express": "~4.15.2",
     "jsonwebtoken": "^8.2.1",
     "moment": "^2.20.1",
