@@ -1,11 +1,11 @@
 module.exports = {
 	port: 3001,
 	mysql: {
-		host: '192.168.1.48',
-		port: 3306,
-		user: 'root',
-		password: 'We@123456',
-		database: 'hdd_v3_5_test'
+		host: '192.168.0.28',
+		port: 33060,
+		user: 'hdd',
+		password: 'R84:5V736aKPJ9a3z>8VxJ8G',
+		database: 'hdd_v3'
 	},
 	redis: {
 		host: '192.168.0.28',
