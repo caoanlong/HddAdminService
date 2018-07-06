@@ -242,21 +242,9 @@ router.post('/update', (req, res) => {
 
 /* 删除用户 */
 router.post('/delete', (req, res) => {
-	let ids = req.body.ids
-	Sys_user.destroy({
-		where: {
-			User_ID: {
-				$in: ids
-			}
-		}
-	}).then(() => {
-		Sys_user_role.destroy({
-			where: {
-				user_id: {
-					$in: ids
-				}
-			}
-		}).then(() => {
+	const ids = req.body.ids
+	Sys_user.update({ DelFlag: 'Y' }, { where: { User_ID: { $in: ids } } }).then(() => {
+		Sys_user_role.destroy({ where: { user_id: { $in: ids } } }).then(() => {
 			res.json(responseData)
 		})
 	})
